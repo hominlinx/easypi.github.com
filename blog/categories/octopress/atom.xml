@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[easypi's blog]]></title>
-  <link href="http://easypi.github.com/atom.xml" rel="self"/>
+  <title><![CDATA[Category: octopress | easypi's blog]]></title>
+  <link href="http://easypi.github.com/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://easypi.github.com/"/>
   <updated>2013-01-05T01:15:16+08:00</updated>
   <id>http://easypi.github.com/</id>
