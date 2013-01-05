@@ -4,15 +4,19 @@
         <loc>
             http://easypi.github.com/blog/2013/01/05/my-first-blog-posted-in-github-pages-by-octopress/
         </loc>
-        <lastmod>2013-01-05T00:59:35+08:00</lastmod>
+        <lastmod>2013-01-05T15:46:44+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://easypi.github.com/blog/2013/01/05/di-er-pian-wen-zhang/</loc>
+        <lastmod>2013-01-05T16:11:24+08:00</lastmod>
     </url>
     <url>
         <loc>http://easypi.github.com/blog/archives/</loc>
-        <lastmod>2013-01-05T00:59:35+08:00</lastmod>
+        <lastmod>2013-01-05T16:11:24+08:00</lastmod>
     </url>
     <url>
         <loc>http://easypi.github.com/about/</loc>
-        <lastmod>2013-01-05T01:14:49+08:00</lastmod>
+        <lastmod>2013-01-05T16:21:15+08:00</lastmod>
     </url>
     <url>
         <loc>http://easypi.github.com/robots.txt</loc>
@@ -20,6 +24,6 @@
     </url>
     <url>
         <loc>http://easypi.github.com/</loc>
-        <lastmod>2013-01-05T00:59:35+08:00</lastmod>
+        <lastmod>2013-01-05T16:11:24+08:00</lastmod>
     </url>
 </urlset>

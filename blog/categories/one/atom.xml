@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[easypi's blog]]></title>
-  <link href="http://easypi.github.com/atom.xml" rel="self"/>
+  <title><![CDATA[Category: one | easypi's blog]]></title>
+  <link href="http://easypi.github.com/blog/categories/one/atom.xml" rel="self"/>
   <link href="http://easypi.github.com/"/>
   <updated>2013-01-05T17:05:26+08:00</updated>
   <id>http://easypi.github.com/</id>
@@ -27,9 +27,8 @@
 dlfkajdfj;
 dfajfe;jfkjf</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install hhh</span></code></pre></td></tr></table></div></figure>
-
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install hhh</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 ]]></content>
   </entry>
   
