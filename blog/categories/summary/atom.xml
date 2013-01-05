@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: summary | easypi's blog]]></title>
+  <link href="http://easypi.github.com/blog/categories/summary/atom.xml" rel="self"/>
+  <link href="http://easypi.github.com/"/>
+  <updated>2013-01-06T02:05:03+08:00</updated>
+  <id>http://easypi.github.com/</id>
+  <author>
+    <name><![CDATA[厚之成]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[利用Octopress在github pages上搭建个人博客]]></title>
+    <link href="http://easypi.github.com/blog/2013/01/05/using-octopress-to-setup-blog-on-github/"/>
+    <updated>2013-01-05T22:19:00+08:00</updated>
+    <id>http://easypi.github.com/blog/2013/01/05/using-octopress-to-setup-blog-on-github</id>
+    <content type="html"><![CDATA[<p>github不仅能够提供代码托管和版本控制系统，现在又有了github pages功能，可以让你将个人的博客搭建在此，通过git 工具方便的发布个人博客。由于pages只提供了管理和呈现静态网页的功能，而静态网页的生成则需自己实现。Jekyll工具可用来实现静态网页的生成，但是使用起来相对麻烦，需要对Html,CSS和javascript比较熟悉。作为希望更加关注内容的博客用户来说，Octopress给出了一个更好的选择，Octopress是一个基于Jekyll的博客生成框架，它处理了Jekyll那些麻烦的配置，安装后只需几条简单的命令就可以发布你的博客了。</p>
+
+<p>本文就是基于该系统发布的第一篇，本文记录了在ubuntu 12.04系统下搭建该博客系统的过程，同时也加入了一些自己的配置，比如增加新浪微波侧边栏、去除分享到twitter等国内不能使用的功能、增加分享到微博等网站的功能、添加评论系统等。现在做一总结，分享给大家。</p>
+
+<!--more-->
+
+
+<h2>安装</h2>
+
+<p>Octopress的安装还是很方便的,按照其官方文档<a href="http://octopress.org/docs/setup">http://octopress.org/docs/setup</a>就能安装成功,在此只是翻译和简单罗列一下。</p>
+
+<h3>安装Ruby</h3>
+
+<p>大家现在应该已经有了git系统，关于git本文不多做介绍，默认大家已经会用git系统了。</p>
+
+<p>首先安装Octopress依赖的的Ruby, Octopress 2.0依赖的是Ruby 1.9.3版本，可以在终端中输入<code>ruby --version</code>查看版本信息。Ubuntu系统中可以使用apt-get 安装，但是注意默认安装的Ruby版本可能不对，因此安装时需指明版本：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install ruby1.9.3</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>现在终端中输入<code>ruby --version</code>查看版本信息应该是正确了。如果之前安装过Ruby但是版本不符合的，则需要使用rbenv或RVM来进行安装，具体可查看<a href="http://octopress.org/docs/setup/rbenv/">http://octopress.org/docs/setup/rbenv/</a> 或 <a href="http://octopress.org/docs/setup/rvm/">http://octopress.org/docs/setup/rvm/</a>.</p>
+
+<h3>安装Octopress</h3>
+
+<p>首先将Octopress工具clone到本地一文件夹：
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/imathis/octopress.git octopress
+</span><span class='line'>cd octopress &lt;br/></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>然后安装其它依赖
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem install bundler
+</span><span class='line'>rbenv rehash    # If you use rbenv, rehash to be able to run the bundle command
+</span><span class='line'>bundle install</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>最后安装默认Octopress主题
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake install</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>至此Octopress安装完成。</p>
+
+<h2>配置github pages</h2>
+
+<p>github pages 可以提供一个域名为<code>http://username.github.com</code>的博客，首先需要在github新建一个名为<code>username.github.com</code>的代码仓库，然后就可以使用Octopress博客部署到该域名上了。(该username必须与你在github上的用户名一致)</p>
+
+<p>在代码仓库建立完成后，可以使用Octopress提供的脚本完成后面的部署工作：
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake setup_github_pages</span></code></pre></td></tr></table></div></figure></notextile></div>
+在此过程会询问你的代码仓库的地址，按提示完成即可。此过程可能需要提供SSH key,如果没有可以参照<a href="https://help.github.com/articles/generating-ssh-keys">https://help.github.com/articles/generating-ssh-keys</a>设置。</p>
+
+<p>然后就可以将默认的博客发布到你自己的域名了：
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake generate
+</span><span class='line'>rake deploy</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>几分钟后，你的域名上应该已经有了默认的博客了，至此安装和配置github pages就完成了。你还可以将Octopress目录加入到github中进行管理：
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git add .
+</span><span class='line'>git commit -m 'your message'
+</span><span class='line'>git push origin source</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>配置Octopress</h2>
+
+<p>Octopress的配置主要在<code>_config.yml</code>文件中，可以配置博客的主副标题，作者名，邮箱等，配置十分方便。在此建议将国内不能使用的功能，如twitter,google+等相关项设为false或直接删除，随后将介绍如何使用新浪微博等代替。</p>
+
+<h2>开始写文章</h2>
+
+<p>使用Octopress书写和发布文章只需几条命令即可。首先运行
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake new_post["title"]</span></code></pre></td></tr></table></div></figure></notextile></div>
+该命令将会在<code>source/_posts</code>目录下生成一个名为<code>YYYY-MM-DD-post-title.markdown</code>的文件，编辑该文件即可书写你的文章了。文章书写使用markdown语法，<a href="http://wowubuntu.com/markdown/index.html">http://wowubuntu.com/markdown/index.html</a>给出了markdown语法的介绍，该语法简单方便。</p>
+
+<p>在文章书写完成后，就可以生成静态网页了：
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake generate</span></code></pre></td></tr></table></div></figure></notextile></div>
+如果想要在发布到github上之前在本机进行预览，执行下面的命令，然后访问<a href="http://localhost:4000">http://localhost:4000</a> 就可以看到完成的状态了。
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake preview</span></code></pre></td></tr></table></div></figure></notextile></div>
+最后可以发布到github上了，
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake deploy</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>至此，你已经可以在自己的博客上写文章了。<a href="http://octopress.org/docs/blogging/plugins/">http://octopress.org/docs/blogging/plugins/</a>这里给出了常用的书写文章时可以添加代码、图片、视频等内容的语法，用此可以生成图文并茂的文章。</p>
+
+<h2>高级配置</h2>
+
+<p>在此部分主要介绍在侧边增加新浪微博秀，在文章底部增加分享到和评论的功能。</p>
+
+<h3>新浪微博秀</h3>
+
+<ul>
+<li>在<code>_config.yml</code>文件中将<code>default_asides</code>处代码改为如下，即去除不要的侧边栏，并加入微博侧边栏。
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>default_asides: [asides/recent_posts.html, asides/github.html, custom/asides/weibo.html]</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+<li>到<a href="http://app.weibo.com/tool/weiboshow">http://app.weibo.com/tool/weiboshow</a>获取自己微博秀的代码。</li>
+<li><p>在<code>source/_includes/custom/asides</code>文件夹下新建weibo.html文件并编辑如下,将获取的微博秀代码插入到相应位置：
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;section>
+</span><span class='line'> &lt;h1>新浪微博&lt;/h1>
+</span><span class='line'> &lt;ul id="weibo">
+</span><span class='line'> &lt;li>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p> &lt;!-- 在此插入获得的微博秀代码 -->&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>   &lt;/li>
+</span><span class='line'> &lt;/ul>
+</span><span class='line'>&lt;/section></span></code></pre></td></tr></table></div></figure></notextile></div></p></li>
+</ul>
+
+
+<p>至此你的侧边就有了你自己的微博秀了。</p>
+
+<h3>分享到和评论功能</h3>
+
+<ul>
+<li><p>在<code>_config.yml</code>文件中增加一项，可用此来控制是否开启分享到和评论功能，设为<code>false</code>则可关闭：
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>Sina Weibo&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>weibo_sharing: true</span></code></pre></td></tr></table></div></figure></notextile></div></p></li>
+<li><p>编辑<code>/source/_includes/post/sharing.html</code>,增加如下代码：
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//下面的大括号与百分号间无空格，如果复制，请去掉&lt;br/>
+</span><span class='line'>{ % if site.weibo_sharing % }
+</span><span class='line'>{ % include custom/weibo_sharing.html % }
+</span><span class='line'>{ % endif % }</span></code></pre></td></tr></table></div></figure></notextile></div></p></li>
+<li><p>在<code>source/_includes/custom</code>下新建<code>weibo_sharing.html</code>文件。</p></li>
+<li>到<a href="http://www.bshare.cn/">http://www.bshare.cn/</a>获取喜欢按钮样式的分享代码，加入到<code>weibo_sharing.html</code>中，即可增加分享到按钮功能。</li>
+<li>到<a href="http://www.uyan.cc/">http://www.uyan.cc/</a>获取评论功能的代码，加入到<code>weibo_sharing.html</code>中，即可增加评论功能。</li>
+</ul>
+
+
+<h2>参考</h2>
+
+<ul>
+<li><a href="http://octopress.org/docs/">http://octopress.org/docs/</a></li>
+<li><a href="https://help.github.com/categories/20/articles">https://help.github.com/categories/20/articles</a></li>
+<li><a href="http://blog.devtang.com/blog/2012/02/10/setup-blog-based-on-github/">http://blog.devtang.com/blog/2012/02/10/setup-blog-based-on-github/</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>
