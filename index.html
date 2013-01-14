@@ -9,7 +9,7 @@
   <meta name="author" content="厚之成">
 
   
-  <meta name="description" content="JSP(Java Server Page)与Servlet是JavaEE的基本成员，基本形式为在HTMl文件中添加Java代码，辅以使用JSP标签，在静态的HTML的基础上有了动态提供页面内容的能力，使从事java开发的人员可以将java知识运用到动态网页开发的应用中。 &hellip;">
+  <meta name="description" content="JSP的本质就是Servlet，编写JSP将其放入web容器中，web容器将JSP编译为Servlet。 由于作为表现层技术使用时，直接使用Servlet的开发效率低下，因此一般使用如JSP等的表现层技术实现。在MVC规范中，Servlet通常被当作控制器使用，虽然还有很多其他MVC的框架可用， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -80,7 +80,50 @@
   <header>
     
       <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2013/01/11/javaEE-JSP-learning-notes/">JavaEE学习之JSP技术</a></h1>
+        <h1 class="entry-title"><a href="/blog/2013/01/14/javaEE-learning-servlet/">JaveEE学习之Servlet技术</a></h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-14T20:17:00+08:00" pubdate data-updated="true">Jan 14<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>JSP的本质就是Servlet，编写JSP将其放入web容器中，web容器将JSP编译为Servlet。 由于作为表现层技术使用时，直接使用Servlet的开发效率低下，因此一般使用如JSP等的表现层技术实现。在MVC规范中，Servlet通常被当作控制器使用，虽然还有很多其他MVC的框架可用，但Servlet作为底层实现，对学习JavaEE技术，了解技术原理是有意义的。本文给出一个简单的符合MVC规范的web应用例子，并使用Servlet作为其中的控制器来学习Servlet的相关技术。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/01/14/javaEE-learning-servlet/"> 阅读 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
+        <h1 class="entry-title"><a href="/blog/2013/01/11/javaEE-learning-JSP/">JavaEE学习之JSP技术</a></h1>
       
     
     
@@ -112,7 +155,7 @@
   
   
     <footer>
-      <a rel="full-article" href="/blog/2013/01/11/javaEE-JSP-learning-notes/"> 阅读 &rarr;</a>
+      <a rel="full-article" href="/blog/2013/01/11/javaEE-learning-JSP/"> 阅读 &rarr;</a>
     </footer>
   
 
@@ -177,7 +220,11 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/01/11/javaEE-JSP-learning-notes/">JavaEE学习之JSP技术</a>
+        <a href="/blog/2013/01/14/javaEE-learning-servlet/">JaveEE学习之Servlet技术</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/11/javaEE-learning-JSP/">JavaEE学习之JSP技术</a>
       </li>
     
       <li class="post">
