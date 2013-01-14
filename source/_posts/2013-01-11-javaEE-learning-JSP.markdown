@@ -247,3 +247,5 @@ JSP脚本中有9个内置对象，是Servlet API接口的实例，可以直接�
 * 建立TLD（Tag Library Definition）文件实现标签名与标签处理类的关联。
 * 在JSP文件中，通过编译指令指明使用的标签库，即可在JSP中使用自定义的标签。
 
+## 参考
+[轻量级Java EE企业应用实战](http://book.douban.com/subject/6002664/)
