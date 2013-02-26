@@ -4,7 +4,7 @@
   <title><![CDATA[Category: javaEE | easypi's blog]]></title>
   <link href="http://easypi.github.com/blog/categories/javaee/atom.xml" rel="self"/>
   <link href="http://easypi.github.com/"/>
-  <updated>2013-01-14T20:25:28+08:00</updated>
+  <updated>2013-02-26T15:56:58+08:00</updated>
   <id>http://easypi.github.com/</id>
   <author>
     <name><![CDATA[厚之成]]></name>
@@ -12,6 +12,146 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[JaveEE学习之Struts2技术]]></title>
+    <link href="http://easypi.github.com/blog/2013/02/26/javaee-learning-struts/"/>
+    <updated>2013-02-26T15:39:00+08:00</updated>
+    <id>http://easypi.github.com/blog/2013/02/26/javaee-learning-struts</id>
+    <content type="html"><![CDATA[<p>Struts2是一款优秀的MVC框架，具有一系列的优点使其具有巨大的吸引力。这些优点包括：允许使用普通java对象作为Action，并且降低了与Servlet API的耦合，更容易测试;支持更多的视图技术;提供良好的可扩展性，更强大的输入校验功能;整合Ajax支持等。本文介绍简单的Struts2应用，来对其进行了解。</p>
+
+<!-- more -->
+
+
+<h2>Struts2开发应用流程</h2>
+
+<p>这里用一个Struts2开发简单登录处理的web应用来介绍Struts2的开发应用流程</p>
+
+<h3>0. 为web应用添加Struts2支持</h3>
+
+<p>将下载的Struts2中lib文件夹下的 <code>commons-fileupload-v.jar, commons-io-v.jar, freemaker-v.jar, javassit-v.jar, ognl-v.jar, struts2-core-v.jar, xwork-core-v.jar</code>等必须的支持文件（其中<code>-v</code>表示版本号，根据下载不同会有所不同）复制到web应用的<code>WEB-INF\lib</code>路径下，如需其他Struts2的支持，复制相应jar文件即可。</p>
+
+<h3>1. 编辑web应用的web.xml配置文件，配置Struts2的核心filter，并使其拦截相关请求。</h3>
+
+<p>在web.xml配置文件中增加以下内容：</p>
+
+<pre><code>&lt;filter&gt;
+    &lt;filter-name&gt;struts2&lt;/filter-name&gt;
+    &lt;filter-class&gt;org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter&lt;/filter-class&gt;
+&lt;/filter&gt;
+
+&lt;filter-mapping&gt;
+    &lt;filter-name&gt;struts2&lt;/filter-name&gt;
+    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;
+</code></pre>
+
+<h3>2. 编写处理表单请求的JSP页面来发送POST方式请求，如果是GET方式请求，则此步不进行处理。</h3>
+
+<p>在本登录应用中，需要处理表单请求，编写login.jsp如下</p>
+
+<pre><code>&lt;%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%&gt;
+&lt;%@taglib prefix="s" uri="/struts-tags"%&gt;
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv="Content-Type" content="text/html; charset=GBK"&gt;
+&lt;title&gt;&lt;s:text name="loginPage"/&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;s:form action="login"&gt;
+    &lt;s:textfield name="username" key="user"/&gt;
+    &lt;s:textfield name="password" key="pass"/&gt;
+    &lt;s:submit key="login"/&gt;
+&lt;/s:form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>在本jsp的编写中声明使用了struts2的标签库，并使用该标签库来编写表单请求代码。</p>
+
+<h3>3. 定义处理用户请求的Action类</h3>
+
+<p>在上述的jsp页面中指定了表单的action为login，因此需要实现一个java类来处理该请求动作。该类通常继承与ActionSupport基类，其代码如下：</p>
+
+<pre><code>import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+
+public class LoginAction extends ActionSupport
+{
+    private String username;
+    private String password;
+
+    public String getUsername()
+    {
+        return username;
+    }
+    public void setUsername(String username)
+    {
+        this.username = username;
+    }
+
+    public String getPassword()
+    {
+        return password;
+    }
+    public void setPassword(String password)
+    {
+        this.password = password;
+    }
+
+    public String execute() throws Exception
+    {
+        if (getUsername().equals("easypi.github.com")
+            &amp;&amp; getPassword().equals("easypi") )
+        {
+            ActionContext.getContext().getSession()
+                .put("user" , getUsername());
+        return SUCCESS;
+        }
+        else
+        {
+            return ERROR;
+        }
+    }
+}
+</code></pre>
+
+<p>该类实现对登录的判断，如果用户名为<code>easypi.github.com</code>，密码为<code>easypi</code>则登录成功，否则失败。</p>
+
+<h3>4. 配置Action以及处理结果和物理视图资源之间的对应关系</h3>
+
+<p>在定义了请求并实现了处理请求action的类之后，需要将请求与action对应起来，用来实现MVC模型。建立struts.xml放置在<code>WEB-INF\classes</code>路径下，使用该文件实现web应用的配置。该文件代码如下：</p>
+
+<pre><code>&lt;?xml version="1.0" encoding="GBK"?&gt;
+&lt;!DOCTYPE struts PUBLIC     "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd"&gt;
+&lt;struts&gt;
+    &lt;package name="hou" extends="struts-default"&gt;
+        &lt;action name="login" class="LoginAction"&gt;   
+            &lt;result name="input"&gt;/login.jsp&lt;/result&gt;
+            &lt;result name="error"&gt;/error.jsp&lt;/result&gt;
+            &lt;result name="success"&gt;/welcome.jsp&lt;/result&gt;
+        &lt;/action&gt;
+    &lt;/package&gt;
+&lt;/struts&gt;
+</code></pre>
+
+<p>其中，将action的login请求使用LoginAction类来进行处理，并可以配置返回结果与物理视图资源之间的对应，如登录成功则进入welcome.jsp页面。</p>
+
+<h3>5. 实现物理视图资源</h3>
+
+<p>使用Struts2开发的最后一步就是实现需要的视图资源，例如welcome.jsp, error.jsp等页面。至此则完成了使用Struts2开发web应用的全部流程，也实现了一次完整的请求响应流程。</p>
+
+<h2>Struts2 请求响应流程</h2>
+
+<p>Struts2的开发流程实际是根据请求响应流程而来的，一次请求响应流程如下。</p>
+
+<p><img src="http://ww1.sinaimg.cn/large/a74ecc4cjw1e26usgyzmaj.jpg" alt="Struts2 请求响应流程" /></p>
+
+<p>其中StrutsPrepareAndExecuteFilter称为核心控制器，xxxAction称为业务控制器。通过两级控制器实现解耦，实现xxxAction只处理返回结果，不与物理视图相连，方便代码更改。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[JaveEE学习之Servlet技术]]></title>

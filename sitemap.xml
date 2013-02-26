@@ -15,8 +15,12 @@
         <lastmod>2013-01-14T20:25:22+08:00</lastmod>
     </url>
     <url>
+        <loc>http://easypi.github.com/blog/2013/02/26/javaee-learning-struts/</loc>
+        <lastmod>2013-02-26T15:55:52+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://easypi.github.com/blog/archives/</loc>
-        <lastmod>2013-01-14T20:25:22+08:00</lastmod>
+        <lastmod>2013-02-26T15:55:52+08:00</lastmod>
     </url>
     <url>
         <loc>http://easypi.github.com/about/</loc>
@@ -28,6 +32,6 @@
     </url>
     <url>
         <loc>http://easypi.github.com/</loc>
-        <lastmod>2013-01-14T20:25:22+08:00</lastmod>
+        <lastmod>2013-02-26T15:55:52+08:00</lastmod>
     </url>
 </urlset>
