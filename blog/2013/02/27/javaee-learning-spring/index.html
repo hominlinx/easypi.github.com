@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>about - easypi's blog</title>
+  <title>JavaEE学习之Spring技术 - easypi's blog</title>
   <meta name="author" content="厚之成">
 
   
-  <meta name="description" content="About Jan 5th, 2013 我是厚之成，现在是重庆大学的硕士研究生。 Jan 5th, 2013 <!-- (function(){ var _w = 106 , _h = 58; var param = { url:location.href, type:'5', count:'1 &hellip;">
+  <meta name="description" content="Spring框架是一种从实际开发中抽取出来的框架，提供了一种模板的设计哲学，这些模板完成了大量的通用步骤，开发者只需实现特定应用有关的步骤。Spring提供了一种一站式的解决方案，贯穿表现层，业务层和持久层等，以高度的开放性将已有的框架进行整合。 Spring框架使用流程 0. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://easypi.github.com/about/">
+  <link rel="canonical" href="http://easypi.github.com/blog/2013/02/27/javaee-learning-spring/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -72,32 +72,17 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">About</h1>
-    <p class="meta">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-05T01:13:00+08:00" pubdate data-updated="true">Jan 5<span>th</span>, 2013</time></p>
-  </header>
-  
-  <p>我是厚之成，现在是重庆大学的硕士研究生。</p>
-
-  
-    <footer>
+    
+      
+        <h1 class="entry-title">JavaEE学习之Spring技术</h1>
+      
+    
+    
       <p class="meta">
         
-        
 
 
 
@@ -109,11 +94,119 @@
   
 
 
-<time datetime="2013-01-05T01:13:00+08:00" pubdate data-updated="true">Jan 5<span>th</span>, 2013</time>
+<time datetime="2013-02-27T17:19:00+08:00" pubdate data-updated="true">Feb 27<span>th</span>, 2013</time>
         
       </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Spring框架是一种从实际开发中抽取出来的框架，提供了一种模板的设计哲学，这些模板完成了大量的通用步骤，开发者只需实现特定应用有关的步骤。Spring提供了一种一站式的解决方案，贯穿表现层，业务层和持久层等，以高度的开放性将已有的框架进行整合。</p>
+
+<!-- more -->
+
+
+<h2>Spring框架使用流程</h2>
+
+<h3>0. 为web应用添加Spring支持</h3>
+
+<p>将Spring项目下的dist路径下的全部jar包和spring-framework-v复制到WEB-INF\lib路径下，即可在web应用中使用Spring框架。</p>
+
+<h3>1. 编写主程序初始化Spring容器</h3>
+
+<pre><code>package hou;
+
+import PersonService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class SpringTest
+{
+    public static void main(String[] args)
+    {
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("bean.xml");
+        System.out.println(ctx);
+        PersonService p = ctx.getBean("personService" , PersonService.class);
+        p.info();   
+    }
+}
+</code></pre>
+
+<h3>2. 编写被Spring容器管理的bean</h3>
+
+<pre><code>public class PersonService
+{
+    private String name;
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+    public void info()
+    {
+        System.out.println("名字"+ name);
+    }
+}
+</code></pre>
+
+<h3>3. 将bean类部署到Spring容器中，通过配置文件</h3>
+
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.springframework.org/schema/beans"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"&gt;
+    &lt;!-- 将PersonService类部署成Spring容器中的Bean  --&gt;
+    &lt;bean id="personService" class="PersonService"&gt;
+        &lt;property name="name" value="wawa"/&gt;
+    &lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre>
+
+<p>通过以上的简单例子，可以发现Spring容器的一个作用，即IoC（控制反转），就是说Spring容器可以创建bean对象，并通过配置文件设置实例的属性值。这是一种通过Spring容器注入设置实例属性值的方法。</p>
+
+<h2>Spring框架的核心机制</h2>
+
+<p>Spring实现IoC的核心机制是依赖注入。通常当一个调用者的java实例需要另一个被调用者的java实例时，需要调用者来创建被调用者的实例; 而在依赖注入中，创建工作由Spring容器执行，而后注入到调用者中，实现动态管理各个实例。</p>
+
+<h2>参考</h2>
+
+<p><a href="http://book.douban.com/subject/6002664/">轻量级Java EE企业应用实战</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
       
-        <div class="sharing">
+  
+
+<span class="byline author vcard">Posted by <span class="fn">厚之成</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-27T17:19:00+08:00" pubdate data-updated="true">Feb 27<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/javaee/'>javaEE</a>, <a class='category' href='/blog/categories/note/'>note</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
   
   
   
@@ -168,9 +261,14 @@
   
 </div>
 
+    
+    <p class="meta">
       
-    </footer>
-  
+        <a class="basic-alignment left articlenav" href="/blog/2013/02/27/javaee-learning-hibernate/" title="Previous Post: JavaEE学习之Hibernate技术">&laquo; JavaEE学习之Hibernate技术</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
 </div>
