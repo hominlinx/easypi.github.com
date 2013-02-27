@@ -134,3 +134,6 @@ Struts2的开发流程实际是根据请求响应流程而来的，一次请求�
 
 其中StrutsPrepareAndExecuteFilter称为核心控制器，xxxAction称为业务控制器。通过两级控制器实现解耦，实现xxxAction只处理返回结果，不与物理视图相连，方便代码更改。
 
+
+## 参考
+[轻量级Java EE企业应用实战](http://book.douban.com/subject/6002664/)
