@@ -1,0 +1,836 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>设计模式：Python语言实现之创建型模式 - easypi's blog</title>
+  <meta name="author" content="厚之成">
+
+  
+  <meta name="description" content="本文介绍设计模式中的创建型模式，包括简单工厂模式、工厂方法模式、抽象工厂模式、生成器模式、原型模式和单例模式。说明了每种模式的定义、结构、特点，并给出了使用python语言实现的代码。 simple factory 模式 定义 简单工厂模式是属于创建型模式，又叫做静态工厂方法（Static &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://easypi.github.com/blog/2013/03/15/design-pattern-in-python-creational-ones/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="easypi's blog" type="application/atom+xml">
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <div id="logo">
+  	<div id="logoLeft">{</div>
+  	<div id="logoText">ep</div>
+  	<div id="logoRight">}</div>
+  	<div class="clear"></div>
+  </div>
+  <h1><a href="/">easypi's blog</a></h1>
+  
+    <h2>Knowledge comes from summary and sharing.</h2>
+  
+  <div class="clear"></div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:easypi.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">设计模式：Python语言实现之创建型模式</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-15T20:45:00+08:00" pubdate data-updated="true">Mar 15<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>本文介绍设计模式中的创建型模式，包括简单工厂模式、工厂方法模式、抽象工厂模式、生成器模式、原型模式和单例模式。说明了每种模式的定义、结构、特点，并给出了使用python语言实现的代码。</p>
+
+<!-- more -->
+
+
+<h2>simple factory 模式</h2>
+
+<h3>定义</h3>
+
+<p>简单工厂模式是属于创建型模式，又叫做静态工厂方法（Static Factory Method）模式，是由一个工厂对象决定创建出哪一种产品类的实例。</p>
+
+<h3>结构</h3>
+
+<p><img src="/images/DPython/simplefactory.png" alt="UML图" /></p>
+
+<h3>参与者</h3>
+
+<ul>
+<li>抽象产品（Product）：所创建产品的父类，用于描述所有实例具有的公共接口</li>
+<li>具体产品（ConcreteProduct）：所创建产品的具体类，实现公共接口，产生具体实例。</li>
+<li>简单工厂（SimpleFactory）：负责实现创建实例的内部逻辑逻辑，直接被外部调用，创建所需产品对象</li>
+</ul>
+
+
+<h3>代码实现</h3>
+
+<ul>
+<li><p>抽象产品（<code>product.py</code>）</p>
+
+<pre><code>  class Product(object):
+      """a base class to define common interfaces"""
+      def operate(self):
+          pass
+</code></pre></li>
+<li><p>具体产品（<code>concrete_product_1.py</code> &amp; <code>concrete_product_2.py</code>）</p>
+
+<pre><code>  from product import *
+  class ConcreteProduct_1(Product):
+      """a concrete product class to implement common interfaces"""
+      def operate(self):
+          print "operation implemented by ConcreteProduct_1"
+
+  from product import *
+  class ConcreteProduct_2(Product):
+      """a concrete product class to implement common interfaces"""
+      def operate(self):
+          print "operation implemented by ConcreteProduct_2"
+</code></pre></li>
+<li><p>简单工厂（<code>simple_factory.py</code>）</p>
+
+<pre><code>  from concrete_product_1 import *
+  from concrete_product_2 import *
+
+  class SimpleFactory(object):
+      """SimpleFactory to create concrete pruduct"""
+      def create(self,option):
+          if option == "product 1":
+              return ConcreteProduct_1()
+          elif option == "product 2":
+              return ConcreteProduct_2()
+          else: 
+              return None
+</code></pre></li>
+<li><p>客户端使用示例（<code>use_sim_fac.py</code>）</p>
+
+<pre><code>  from simple_factory import SimpleFactory
+
+  fac = SimpleFactory()
+  product = fac.create("product 2")
+  if product != None:
+      product.operate()
+</code></pre></li>
+</ul>
+
+
+<h3>优缺点</h3>
+
+<ul>
+<li>优点：简单工厂模式中，工厂类实现逻辑，根据外界信息决定创建哪个具体类的实例，避免客户端程序直接创建具体实例。</li>
+<li>缺点：工厂类是该模式的核心，承担了太重要的角色，工厂类能够正常工作影响全部逻辑。此外，如需增加和扩展业务时需更改工厂类，违反开放-封闭的原则。</li>
+</ul>
+
+
+<hr />
+
+<h2>factory method 模式</h2>
+
+<h3>定义</h3>
+
+<p>工厂方法模式又叫做虚构造器，它定义一个用于创建对象的接口，让子类决定实例化哪一个对象。该模式使一个类的实例化延迟到其子类。</p>
+
+<h3>结构</h3>
+
+<p><img src="/images/DPython/factorymethod.png" alt="UML图" /></p>
+
+<h3>参与者</h3>
+
+<ul>
+<li>抽象产品（Product）：所创建产品的父类，用于描述所有实例具有的公共接口</li>
+<li>具体产品（ConcreteProduct）：所创建产品的具体类，实现公共接口，产生具体实例。</li>
+<li>抽象创建者（Creator）：声明工厂方法，返回Product类型对象。</li>
+<li>具体创建者（ConcreteCreator）：定义具体工厂方法，返回具体ConcreteProduct实例。</li>
+</ul>
+
+
+<h3>代码实现</h3>
+
+<ul>
+<li><p>产品类 （<code>product.py</code>）</p>
+
+<pre><code>  #  abstract product
+  class Product(object):
+      """a base class to define common interfaces"""
+      def operate(self):
+          pass
+
+  # concrete product
+  class ConcreteProduct_1(Product):
+      """a concrete product class to implement common interfaces"""
+      def operate(self):
+          print "operation implemented by ConcreteProduct_1"
+
+  class ConcreteProduct_2(Product):
+      """a concrete product class to implement common interfaces"""
+      def operate(self):
+          print "operation implemented by ConcreteProduct_2"
+</code></pre></li>
+<li><p>创建者类 （<code>creator.py</code>）</p>
+
+<pre><code>  from product import *
+
+  # abstract creator
+  class Creator(object):
+      """a base creator to define factory method"""
+      def create(self):
+          pass
+
+  # concrete creator
+  class ConcreteCreator_1(Creator):
+      """ a concrete creator to implement factory method"""
+      def create(self):
+          return ConcreteProduct_1()
+
+  class ConcreteCreator_2(Creator):
+      """ a concrete creator to implement factory method"""
+      def create(self):
+          return ConcreteProduct_2()
+</code></pre></li>
+<li><p>客户端 （<code>client.py</code>）</p>
+
+<pre><code>  import random
+  from product import *
+  from creator import *
+
+  # choice concrete creator manually
+  mycreator = ConcreteCreator_1()
+  myproduct = mycreator.create()
+  myproduct.operate()
+
+  # choice concrete creator randomly
+  def genefac(n):
+      for i in range(n):
+          yield random.choice(Creator.__subclasses__())
+
+  mycreators = [i() for i in genefac(10)]
+  myproducts = [i.create() for i in mycreators]
+
+  for i in myproducts:
+      i.operate()
+</code></pre></li>
+</ul>
+
+
+<h3>优缺点</h3>
+
+<ul>
+<li>优点：工厂方法模式将简单工厂中工厂类的逻辑交由客户端，客户端选择具体工厂类进行具体产品的实例化，当增加新的产品时，不需要更改抽象工厂类，只需实现新的具体工厂类即可，封装性和可扩展性好</li>
+<li>缺点：当应用本身逻辑简单时，相对于简单工厂方法，其编码较多，额外开销大。</li>
+</ul>
+
+
+<hr />
+
+<h2>abstract factory 模式</h2>
+
+<h3>定义</h3>
+
+<p>抽象工厂模式，又叫kit模式，提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类。适用于具有多个产品系列的应用情况。</p>
+
+<h3>结构</h3>
+
+<p><img src="/images/DPython/abstractfactory.png" alt="UML图" /></p>
+
+<h3>参与者</h3>
+
+<ul>
+<li>抽象工厂（AbstractFactory）：声明一个创建抽象对象产品的操作接口。</li>
+<li>具体工厂（ConcreteFactory）: 实现创建具体产品对象的操作</li>
+<li>抽象产品（AbstractProduct）：为一类产品对象声明接口</li>
+<li>具体产品（ConcreteProduct）：定义一个将被相应工厂创建的产品对象，实现抽象产品接口</li>
+<li>客户端（Client）：仅使用由抽象工厂和抽象产品声明的接口。</li>
+</ul>
+
+
+<h3>代码实现</h3>
+
+<ul>
+<li><p>产品类(<code>product.py</code>)</p>
+
+<pre><code>  # abstract product A
+
+  class AbstractProductA(object):
+      def operate(self):
+          pass
+
+  # concrete product A
+
+  class ConcreteProductA1(AbstractProductA):
+      def operate(self):
+          print "operate by ConcreteProductA1"
+
+  class ConcreteProductA2(AbstractProductA):
+      def operate(self):
+          print "operate by ConcreteProductA2"
+
+  # abstract product B
+
+  class AbstractProductB(object):
+      def operate(self):
+          pass
+
+  # concrete product B
+
+  class ConcreteProductB1(AbstractProductB):
+      def operate(self):
+          print "operate by ConcreteProductB1"
+
+  class ConcreteProductB2(AbstractProductB):
+      def operate(self):
+          print "operate by ConcreteProductB2"
+</code></pre></li>
+<li><p>工厂类(<code>factory.py</code>)</p>
+
+<pre><code>  from product import *
+
+  # abstract factory
+
+  class AbstractFactory(object):
+      def create_product_a(self):
+          pass
+      def create_product_b(self):
+          pass
+
+  # concrete factory
+
+  class ConcreteFactory1(AbstractFactory):
+      def create_product_a(self):
+          return ConcreteProductA1()
+      def create_product_b(self):
+          return ConcreteProductB1()
+
+  class ConcreteFactory2(AbstractFactory):
+      def create_product_a(self):
+          return ConcreteProductA2()
+      def create_product_b(self):
+          return ConcreteProductB2()
+</code></pre></li>
+<li><p>客户端(<code>client.py</code>)</p>
+
+<pre><code>  import random
+  from product import *
+  from factory import *
+
+  # choice concrete factory manually
+  fac = ConcreteFactory1()
+  prod = fac.create_product_a()
+  prod.operate()
+
+
+  # choice concrete factory randomly
+  def genfac(n):
+      for i in range(n):
+          yield random.choice(AbstractFactory.__subclasses__())
+
+  facs = [i() for i in genfac(10)]
+
+
+  prods = []
+  [prods.extend([i.create_product_a(), i.create_product_b()]) for i in facs]
+
+  for i in prods:
+      i.operate()
+</code></pre></li>
+</ul>
+
+
+<h3>优缺点</h3>
+
+<ul>
+<li>优点：该模式方便改变产品系列，只改变具体工厂就可以配置不同的产品系列。</li>
+<li>缺点：使用该模式增加新的产品时，由于抽象工厂定义了所有可生产产品的集合，因此需要更改所有工厂类以实现增加产品的目的，开销较大。</li>
+</ul>
+
+
+<hr />
+
+<h2>builder 模式</h2>
+
+<h3>定义</h3>
+
+<p>生成器模式将一个复杂对象的创建过程与它的表示分离，使得同样的创建过程可以创建不同的表示。</p>
+
+<h3>结构</h3>
+
+<p><img src="/images/DPython/builder.png" alt="UML图" /></p>
+
+<h3>参与者</h3>
+
+<ul>
+<li>具体产品（Product）：被构造的具体产品，定义组成部件的类，由ConcreteBuilder调用接口进行具体装配。</li>
+<li>抽象生成器（Builder）：为创建具体产品对象的各个部件指定抽象接口。</li>
+<li>具体生成器（ConcreteBuilder）：定义抽象生成器的创建部件的接口，并提供一个检索具体产品的接口。</li>
+<li>指挥者（Director）：构建使用生成器接口的对象，定义构建的标准流程。</li>
+</ul>
+
+
+<h3>代码实现</h3>
+
+<ul>
+<li><p>产品类(<code>product.py</code>)</p>
+
+<pre><code>  class Product(object):
+      def __init__(self):
+          self.parts = "I hava these parts: "
+
+      def add(self, part):
+          self.parts += part
+
+      def show(self):
+          print self.parts
+</code></pre></li>
+<li><p>生成器类（<code>builder.py</code>）</p>
+
+<pre><code>  from product import *
+
+  # abstract builder
+  class Builder(object):
+      def build_part_a(self):
+          pass
+      def build_part_b(self):
+          pass
+
+  # concrete builder
+  class ConcreteBuilder1(Builder):
+      def __init__(self):
+          self.product = Product()
+
+      def build_part_a(self):
+          self.product.add("1_part_a, ")
+
+      def build_part_b(self):
+          self.product.add("1_part_b, ")
+
+      def get_result(self):
+          return self.product
+
+  class ConcreteBuilder2(Builder):
+      def __init__(self):
+          self.product = Product()
+
+      def build_part_a(self):
+          self.product.add("2_part_a, ")
+
+      def build_part_b(self):
+          self.product.add("2_part_b, ")
+
+      def get_result(self):
+          return self.product
+</code></pre></li>
+<li><p>指挥者类(<code>director.py</code>)</p>
+
+<pre><code>  from builder import *
+
+  class Director(object):
+      def construct(self, builder):
+          builder.build_part_a()
+          builder.build_part_b()
+</code></pre></li>
+<li><p>客户端(<code>client.py</code>)</p>
+
+<pre><code>  from builder import *
+  from director import *
+
+  mydirector = Director()
+  mybuilder1 = ConcreteBuilder1()
+  mybuilder2 = ConcreteBuilder2()
+
+  mydirector.construct(mybuilder1)
+  mydirector.construct(mybuilder2)
+
+  prod1 = mybuilder1.get_result()
+  prod2 = mybuilder2.get_result()
+
+  prod1.show()
+  prod2.show()
+</code></pre></li>
+</ul>
+
+
+<h3>适用性</h3>
+
+<p>该模式适用于当创建复杂对象的算法应该独立于该对象的组成部分以及它们的装配方式时，且允许被构造的对象有不同的表示时。它可以使构造代码与表示代码分离，通过传递不同的生成器可以改变不同的表示。相比于抽象工厂模式，二者均可建立复杂的产品对象，但侧重点不同，生成器模式侧重一步一步构造复杂产品，而抽象工厂则侧重多个系列产品（复杂或是简单的）对象的构造。</p>
+
+<hr />
+
+<h2>prototype 模式</h2>
+
+<h3>定义</h3>
+
+<p>用原型实例指定创建对象的种类，并且通过拷贝这些原型创建新的对象。</p>
+
+<h3>结构</h3>
+
+<p><img src="/images/DPython/prototype.png" alt="UML图" /></p>
+
+<h3>参与者</h3>
+
+<ul>
+<li>抽象原型（Prototype）：声明一个克隆自身的接口。</li>
+<li>具体原型（ConcretePrototype）：实现克隆自身的操作。</li>
+<li>客户端（Client）：让一个原型克隆自身返回一个新的对象。</li>
+</ul>
+
+
+<h3>代码实现</h3>
+
+<ul>
+<li><p>原型类（<code>prototype.py</code>）</p>
+
+<pre><code>  import copy
+
+  # abstract prototype
+  class Prototype(object):
+      def clone(self):
+          pass
+
+  # concrete prototype
+  class ConcretePrototype1(Prototype):
+      def clone(self):
+          return copy.copy(self)
+
+  class ConcretePrototype2(Prototype):
+      def clone(self):
+          return copy.copy(self)
+</code></pre></li>
+<li><p>客户端（<code>client.py</code>）</p>
+
+<pre><code>  from prototype import *
+
+  p1 = ConcretePrototype1()
+  c1 = p1.clone()
+</code></pre></li>
+</ul>
+
+
+<h3>适用性</h3>
+
+<p>该模式的优点在于可以从一个对象再创建另外一个可以定制的对象，且不需要知道具体的创建过程。可以实现运行时刻指定实例化类，此外还具有比手动创建所有实例更方便的优点。</p>
+
+<hr />
+
+<h2>singleton 模式</h2>
+
+<h3>定义</h3>
+
+<p>保证一个类仅有一个实例，并提供一个访问它的全局访问点。</p>
+
+<h3>结构</h3>
+
+<p><img src="/images/DPython/singleton.png" alt="UML图" /></p>
+
+<h3>参与者</h3>
+
+<ul>
+<li>单例类（Singleton）：定义一个get_instance方法，允许客户端访问它的唯一实例。</li>
+</ul>
+
+
+<h3>代码实现</h3>
+
+<ul>
+<li><p>单例类（<code>singleton.py</code>）</p>
+
+<pre><code>  class Singleton(object):
+      instance = None
+
+      def __init__(self):
+          pass
+
+      @staticmethod
+      def get_instance():
+          if Singleton.instance is None:
+              Singleton.instance = Singleton()
+
+          return Singleton.instance
+</code></pre></li>
+<li><p>客户端（<code>client.py</code>）</p>
+
+<pre><code>  from singleton import *
+
+  s1 = Singleton.get_instance()
+  s2 = Singleton.get_instance()
+
+  if s1 is s2:
+      print "in singleton pattern"
+</code></pre></li>
+</ul>
+
+
+<h3>适用性</h3>
+
+<p>单例模式保证了类只有一个实例，且可以从一个众所周知的访问点访问它。</p>
+
+<hr />
+
+<h3>源码</h3>
+
+<p>欢迎大家去github上查看<a href="https://github.com/easypi/DPython.git">本项目</a>的所有源文件。</p>
+
+<h3>参考</h3>
+
+<ul>
+<li><a href="http://book.douban.com/subject/1052241/">设计模式-可复用面向对象软件的基础</a></li>
+<li><a href="http://book.douban.com/subject/2334288/">大话设计模式</a></li>
+<li><a href="http://docs.linuxtone.org/ebooks/Python/Thinking_In_Python.pdf">Thinking in python</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">厚之成</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-15T20:45:00+08:00" pubdate data-updated="true">Mar 15<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/designpattern/'>DesignPattern</a>, <a class='category' href='/blog/categories/note/'>note</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+
+  
+    
+<!--
+    <script type="text/javascript" charset="utf-8">
+    (function(){
+      var _w = 106 , _h = 58;
+      var param = {
+        url:location.href,
+        type:'5',
+        count:'1', /**是否显示分享数，1显示(可选)*/
+        appkey:'', /**您申请的应用appkey,显示分享来源(可选)*/
+        title:'', /**分享的文字内容(可选，默认为所在页面的title)*/
+        pic:'', /**分享图片的路径(可选)*/
+        ralateUid:'', /**关联用户的UID，分享微博会@该用户(可选)*/
+    	language:'zh_cn', /**设置语言，zh_cn|zh_tw(可选)*/
+        rnd:new Date().valueOf()
+      }
+      var temp = [];
+      for( var p in param ){
+        temp.push(p + '=' + encodeURIComponent( param[p] || '' ) )
+      }
+      document.write('<iframe allowTransparency="true" frameborder="0" scrolling="no" src="http://hits.sinajs.cn/A1/weiboshare.html?' + temp.join('&') + '" width="'+ _w+'" height="'+_h+'"></iframe>')
+    })()
+    </script>
+
+<a href="javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:'',r='http://www.douban.com/recommend/?url='+e(d.location.href)+'&title='+e(d.title)+'&sel='+e(s)+'&v=1',x=function(){if(!window.open(r,'douban','toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330'))location.href=r+'&r=1'};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()"><img src="http://img2.douban.com/pics/fw2douban2.png" alt="推荐到豆瓣" /></a>
+
+-->
+
+原创文章，版权声明：自由转载-非商用-非衍生-保持署名 | <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" id="">Creative Commons BY-NC-ND 3.0</a>
+<br/>
+<br/>
+
+<div class="bshare-custom icon-medium">
+  <a title="分享到" href="http://www.bShare.cn/" id="bshare-shareto" class="bshare-more">分享到</a>
+  <a title="分享到新浪微博" class="bshare-sinaminiblog"></a>
+  <a title="分享到腾讯微博" class="bshare-qqmb"></a>
+  <a title="分享到豆瓣" class="bshare-douban"></a>
+  <a title="更多平台" class="bshare-more bshare-more-icon more-style-addthis"></a>
+  <span class="BSHARE_COUNT bshare-share-count">0</span></div><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=2&amp;lang=zh"></script><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+
+
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" id="UYScript" src="http://v1.uyan.cc/js/iframe.js?UYUserId=0" async=""></script>
+<!-- UY END -->
+
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left articlenav" href="/blog/2013/02/27/javaee-learning-spring/" title="Previous Post: JavaEE学习之Spring技术">&laquo; JavaEE学习之Spring技术</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/03/15/design-pattern-in-python-creational-ones/">设计模式：Python语言实现之创建型模式</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/27/javaee-learning-spring/">JavaEE学习之Spring技术</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/27/javaee-learning-hibernate/">JavaEE学习之Hibernate技术</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/26/javaee-learning-struts/">JaveEE学习之Struts2技术</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/14/javaEE-learning-servlet/">JaveEE学习之Servlet技术</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/easypi">@easypi</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'easypi',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+<section>
+  <h1>新浪微博</h1>
+  <ul id="weibo">
+    <li>
+
+    <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=0&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1755353035&verifier=6bf885be&dpc=1"></iframe>
+    
+    </li>
+  </ul>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - 厚之成 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
