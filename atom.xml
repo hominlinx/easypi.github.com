@@ -4,7 +4,7 @@
   <title><![CDATA[easypi's blog]]></title>
   <link href="http://easypi.github.com/atom.xml" rel="self"/>
   <link href="http://easypi.github.com/"/>
-  <updated>2013-03-15T21:30:18+08:00</updated>
+  <updated>2013-03-15T22:16:12+08:00</updated>
   <id>http://easypi.github.com/</id>
   <author>
     <name><![CDATA[厚之成]]></name>
@@ -12,6 +12,15 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[test]]></title>
+    <link href="http://easypi.github.com/blog/2013/03/15/test/"/>
+    <updated>2013-03-15T22:09:00+08:00</updated>
+    <id>http://easypi.github.com/blog/2013/03/15/test</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[设计模式：Python语言实现之创建型模式]]></title>
