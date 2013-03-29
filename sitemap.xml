@@ -33,8 +33,14 @@
         <lastmod>2013-03-15T22:04:13+08:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://easypi.github.com/blog/2013/03/29/design-pattern-in-python-structual-ones/
+        </loc>
+        <lastmod>2013-03-29T18:07:26+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://easypi.github.com/blog/archives/</loc>
-        <lastmod>2013-03-15T22:04:13+08:00</lastmod>
+        <lastmod>2013-03-29T18:07:26+08:00</lastmod>
     </url>
     <url>
         <loc>http://easypi.github.com/about/</loc>
@@ -46,6 +52,6 @@
     </url>
     <url>
         <loc>http://easypi.github.com/</loc>
-        <lastmod>2013-03-15T22:04:13+08:00</lastmod>
+        <lastmod>2013-03-29T18:07:26+08:00</lastmod>
     </url>
 </urlset>
