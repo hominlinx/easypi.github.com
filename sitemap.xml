@@ -39,8 +39,14 @@
         <lastmod>2013-03-29T18:07:26+08:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://easypi.github.com/blog/2013/04/02/design-pattern-in-python-behavioral-ones/
+        </loc>
+        <lastmod>2013-04-02T18:08:26+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://easypi.github.com/blog/archives/</loc>
-        <lastmod>2013-03-29T18:07:26+08:00</lastmod>
+        <lastmod>2013-04-02T18:08:26+08:00</lastmod>
     </url>
     <url>
         <loc>http://easypi.github.com/about/</loc>
@@ -52,6 +58,6 @@
     </url>
     <url>
         <loc>http://easypi.github.com/</loc>
-        <lastmod>2013-03-29T18:07:26+08:00</lastmod>
+        <lastmod>2013-04-02T18:08:26+08:00</lastmod>
     </url>
 </urlset>
