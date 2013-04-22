@@ -4,7 +4,7 @@
   <title><![CDATA[Category: summary | easypi's blog]]></title>
   <link href="http://easypi.github.com/blog/categories/summary/atom.xml" rel="self"/>
   <link href="http://easypi.github.com/"/>
-  <updated>2013-04-02T18:10:05+08:00</updated>
+  <updated>2013-04-22T17:57:43+08:00</updated>
   <id>http://easypi.github.com/</id>
   <author>
     <name><![CDATA[厚之成]]></name>
@@ -12,6 +12,99 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[在windows 7 上部署已有的中文octopress博客]]></title>
+    <link href="http://easypi.github.com/blog/2013/04/22/octopress-on-windows/"/>
+    <updated>2013-04-22T16:59:00+08:00</updated>
+    <id>http://easypi.github.com/blog/2013/04/22/octopress-on-windows</id>
+    <content type="html"><![CDATA[<p>之前在ubuntu下搭建了octopress的博客，现在想在实验室的windows 7上也搭建起来。网上的文章多为在windows搭建新的octopress博客，本文则是将已有的octopress博客部署到windows 7的环境下。</p>
+
+<!--more-->
+
+
+<h2>安装依赖</h2>
+
+<ol>
+<li><a href="http://git-scm.com/">安装git</a></li>
+<li><a href="http://rubyinstaller.org/downloads/">安装ruby for windows</a>,本文使用<a href="http://rubyforge.org/frs/download.php/76798/rubyinstaller-1.9.3-p392.exe">ruby 1.9.3-p392</a></li>
+<li><a href="http://rubyinstaller.org/downloads/">安装ruby develop kit</a>, 本文使用<a href="https://github.com/downloads/oneclick/rubyinstaller/DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe">DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe</a> 并解压到文件夹如<code>c:\RubyDevKit</code></li>
+<li><p>cmd中运行命令</p>
+
+<pre><code> cd C:/RubyDevKit
+ ruby dk.rb init
+ ruby dk.rb install
+</code></pre></li>
+</ol>
+
+
+<h2>安装octopress</h2>
+
+<ol>
+<li>创建博客文件夹，如<code>d:\myblog</code></li>
+<li><p>克隆自己的octopress到本地， <code>username 改为自己的</code></p>
+
+<pre><code> git clone -b source https://github.com/username/username.github.com.git
+ cd octopress 
+ git clone https://github.com/username/username.github.com.git _deploy #下载_deploy版本（用于发布）
+</code></pre></li>
+<li><p>安装octopress</p>
+
+<pre><code> gem install bundler
+ bundle install
+</code></pre></li>
+<li><p>解决中文支持问题。由于windows 7的默认字符编码为gbk，而octopress支持的是utf8。因此需要解决二者之间的冲突，否则对中文博客会产生错误。 最简单的解决方法如下：</p></li>
+</ol>
+
+
+<p>4.1 打开git bash， 运行<code>cd</code>到用户根文件夹</p>
+
+<p>4.2 查看目录下是否存在<code>.bash_profile</code>,如果不存在则使用<code>touch .bash_profile</code>新建该文件.</p>
+
+<p>4.3 编辑<code>.bash_profile</code>，添加如下两行</p>
+
+<pre><code>    export   LC_ALL=zh_CN.UTF-8
+    export   LANG=zh_CN.UTF-8
+</code></pre>
+
+<p>4.4 重启git bash， 切换到octopress目录，生成博客并预览观察是否部署成功</p>
+
+<pre><code>    rake generate
+    rake preview
+</code></pre>
+
+<h2>博客发布流程记录</h2>
+
+<p>由于只更改了git bash的配置文件，因此博客发布都在git bash下进行。</p>
+
+<ol>
+<li><p>新建博客-->编辑 --> 生成 --> 预览 --> 发布</p>
+
+<pre><code> rake new_post['title'] 
+ # edit markdown file
+ rake generate
+ rake preview
+ rake deploy
+</code></pre></li>
+<li><p>备份源码到source分支</p>
+
+<pre><code> git add .
+ git commit -m "commit comments"
+ git push origin source
+</code></pre></li>
+</ol>
+
+
+<h2>参考</h2>
+
+<ul>
+<li><a href="http://stb.techelex.com/setup-octopress-on-windows7/">Setup Octopress on Windows7</a></li>
+<li><a href="http://www.cnblogs.com/hangxin1940/archive/2012/03/19/2806438.html">为自己现有的github octopress配置环境</a></li>
+<li><a href="http://sinosmond.github.io/blog/2012/03/12/install-and-deploy-octopress-to-github-on-windows7-from-scratch/">在 Windows7 下从头开始安装部署 Octopress</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[利用Octopress在github pages上搭建个人博客]]></title>
