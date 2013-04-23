@@ -13,7 +13,7 @@ categories: summary
 ## 安装依赖
 
 1. [安装git](http://git-scm.com/)
-2. [安装ruby for windows](http://rubyinstaller.org/downloads/),本文使用[ruby 1.9.3-p392](http://rubyforge.org/frs/download.php/76798/rubyinstaller-1.9.3-p392.exe)
+2. [安装ruby for windows](http://rubyinstaller.org/downloads/),本文使用[ruby 1.9.3-p392](http://rubyforge.org/frs/download.php/76798/rubyinstaller-1.9.3-p392.exe),注意设置环境变量。
 3. [安装ruby develop kit](http://rubyinstaller.org/downloads/), 本文使用[DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe](https://github.com/downloads/oneclick/rubyinstaller/DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe) 并解压到文件夹如`c:\RubyDevKit`
 4. cmd中运行命令
 
@@ -25,7 +25,7 @@ categories: summary
 
 1. 创建博客文件夹，如`d:\myblog`
 2. 克隆自己的octopress到本地， `username 改为自己的`
-        git clone -b source https://github.com/username/username.github.com.git
+        git clone -b source https://github.com/username/username.github.com.git octopress
         cd octopress 
         git clone https://github.com/username/username.github.com.git _deploy #下载_deploy版本（用于发布）
 
