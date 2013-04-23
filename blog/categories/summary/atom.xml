@@ -4,7 +4,7 @@
   <title><![CDATA[Category: summary | easypi's blog]]></title>
   <link href="http://easypi.github.com/blog/categories/summary/atom.xml" rel="self"/>
   <link href="http://easypi.github.com/"/>
-  <updated>2013-04-22T17:57:43+08:00</updated>
+  <updated>2013-04-23T13:37:52+08:00</updated>
   <id>http://easypi.github.com/</id>
   <author>
     <name><![CDATA[厚之成]]></name>
@@ -27,7 +27,7 @@
 
 <ol>
 <li><a href="http://git-scm.com/">安装git</a></li>
-<li><a href="http://rubyinstaller.org/downloads/">安装ruby for windows</a>,本文使用<a href="http://rubyforge.org/frs/download.php/76798/rubyinstaller-1.9.3-p392.exe">ruby 1.9.3-p392</a></li>
+<li><a href="http://rubyinstaller.org/downloads/">安装ruby for windows</a>,本文使用<a href="http://rubyforge.org/frs/download.php/76798/rubyinstaller-1.9.3-p392.exe">ruby 1.9.3-p392</a>,注意设置环境变量。</li>
 <li><a href="http://rubyinstaller.org/downloads/">安装ruby develop kit</a>, 本文使用<a href="https://github.com/downloads/oneclick/rubyinstaller/DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe">DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe</a> 并解压到文件夹如<code>c:\RubyDevKit</code></li>
 <li><p>cmd中运行命令</p>
 
@@ -44,7 +44,7 @@
 <li>创建博客文件夹，如<code>d:\myblog</code></li>
 <li><p>克隆自己的octopress到本地， <code>username 改为自己的</code></p>
 
-<pre><code> git clone -b source https://github.com/username/username.github.com.git
+<pre><code> git clone -b source https://github.com/username/username.github.com.git octopress
  cd octopress 
  git clone https://github.com/username/username.github.com.git _deploy #下载_deploy版本（用于发布）
 </code></pre></li>
