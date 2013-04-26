@@ -24,34 +24,121 @@ categories: summary
 ## 安装octopress
 
 1. 创建博客文件夹，如`d:\myblog`
+
 2. 克隆自己的octopress到本地， `username 改为自己的`
+
         git clone -b source https://github.com/username/username.github.com.git octopress
         cd octopress 
         git clone https://github.com/username/username.github.com.git _deploy #下载_deploy版本（用于发布）
 
 3. 安装octopress
+
         gem install bundler
         bundle install
 
 4. 解决中文支持问题。由于windows 7的默认字符编码为gbk，而octopress支持的是utf8。因此需要解决二者之间的冲突，否则对中文博客会产生错误。 最简单的解决方法如下：
 
-4.1 打开git bash， 运行`cd `到用户根文件夹
+    4.1 打开git bash， 运行`cd `到用户根文件夹
 
-4.2 查看目录下是否存在`.bash_profile`,如果不存在则使用`touch .bash_profile`新建该文件.
+    4.2 查看目录下是否存在`.bash_profile`,如果不存在则使用`touch .bash_profile`新建该文件.
 
-4.3 编辑`.bash_profile`，添加如下两行
-        export   LC_ALL=zh_CN.UTF-8
-        export   LANG=zh_CN.UTF-8
+    4.3 编辑`.bash_profile`，添加如下两行
 
-4.4 重启git bash， 切换到octopress目录，生成博客并预览观察是否部署成功
-        rake generate
-        rake preview
+            export   LC_ALL=zh_CN.UTF-8
+            export   LANG=zh_CN.UTF-8
+
+    4.4 重启git bash， 切换到octopress目录，生成博客并预览观察是否部署成功
+
+            rake generate
+            rake preview
+
+5. （可选）latex数学公式支持。如果需要博客支持数学公式，则进行该步，否则已完成。
+
+    5.1 安装`kramdown`包
+
+            gem install kramdown
+
+    5.2 修改`_config.yml`设定，找到octopress目录下动`_config.yml`文件，找到markdown，并将`rdiscount`修改为`kramdown`.
+
+    5.3 将mathjax引入博客系统。在`/source/_includes/custom/head.html`中添加如下内容
+
+            <!-- mathjax config similar to math.stackexchange -->
+
+            <script type="text/x-mathjax-config">
+              MathJax.Hub.Config({
+                tex2jax: {
+                  inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                  processEscapes: true
+                }
+              });
+            </script>
+
+            <script type="text/x-mathjax-config">
+                MathJax.Hub.Config({
+                  tex2jax: {
+                    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                  }
+                });
+            </script>
+
+            <script type="text/x-mathjax-config">
+                MathJax.Hub.Queue(function() {
+                    var all = MathJax.Hub.getAllJax(), i;
+                    for(i=0; i < all.length; i += 1) {
+                        all[i].SourceElement().parentNode.className += ' has-jax';
+                    }
+                });
+            </script>
+
+            <script type="text/javascript"
+               src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+            </script>
+
+    5.4 在博客中添加如下公式，查看效果
+
+            $$
+            \begin{align*}
+              & \phi(x,y) = \phi \left(\sum_{i=1}^n x_ie_i, \sum_{j=1}^n y_je_j \right)
+              = \sum_{i=1}^n \sum_{j=1}^n x_i y_j \phi(e_i, e_j) = \\
+              & (x_1, \ldots, x_n) \left( \begin{array}{ccc}
+                  \phi(e_1, e_1) & \cdots & \phi(e_1, e_n) \\
+                  \vdots & \ddots & \vdots \\
+                  \phi(e_n, e_1) & \cdots & \phi(e_n, e_n)
+                \end{array} \right)
+              \left( \begin{array}{c}
+                  y_1 \\
+                  \vdots \\
+                  y_n
+                \end{array} \right)
+            \end{align*}
+            $$
+
+    效果为：
+
+    $$
+    \begin{align*}
+      & \phi(x,y) = \phi \left(\sum_{i=1}^n x_ie_i, \sum_{j=1}^n y_je_j \right)
+      = \sum_{i=1}^n \sum_{j=1}^n x_i y_j \phi(e_i, e_j) = \\
+      & (x_1, \ldots, x_n) \left( \begin{array}{ccc}
+          \phi(e_1, e_1) & \cdots & \phi(e_1, e_n) \\
+          \vdots & \ddots & \vdots \\
+          \phi(e_n, e_1) & \cdots & \phi(e_n, e_n)
+        \end{array} \right)
+      \left( \begin{array}{c}
+          y_1 \\
+          \vdots \\
+          y_n
+        \end{array} \right)
+    \end{align*}
+    $$
+
 
 ## 博客发布流程记录
 
 由于只更改了git bash的配置文件，因此博客发布都在git bash下进行。
 
 1. 新建博客-->编辑 --> 生成 --> 预览 --> 发布
+
         rake new_post['title'] 
         # edit markdown file
         rake generate
@@ -59,6 +146,7 @@ categories: summary
         rake deploy
 
 2. 备份源码到source分支
+
         git add .
         git commit -m "commit comments"
         git push origin source
