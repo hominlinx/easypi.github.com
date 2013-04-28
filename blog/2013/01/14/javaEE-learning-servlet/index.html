@@ -30,6 +30,37 @@
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript"
+   src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
   
 
 </head>
@@ -105,8 +136,7 @@
 
 <!-- more -->
 
-
-<h2>Servlet类介绍</h2>
+<h2 id="servlet">Servlet类介绍</h2>
 
 <p>Servlet类是一个继承自<code>HttpServlet</code>的特殊类，可以用来响应用户的请求。在编写自己的Servlet时最常使用的方法是<code>service()</code>方法，该方法处理客户端的请求。因此，一个Servlet类的典型结构为：</p>
 
@@ -124,19 +154,18 @@ public class FirstServlet extends HttpServlet
 }
 </code></pre>
 
-<h2>Servlet类配置</h2>
+<h2 id="servlet-1">Servlet类配置</h2>
 
 <p>为了使Servlet响应用户请求，还需将Servlet与Web应用配置起来。配置Servlet有两种方法：在web.xml中配置和使用@WebServlet Annotation配置。使用@WebServlet Annotation直接在Java类的编辑中即可实现，不需web.xml，我认为是更好的方法，因此使用该法进行配置。在使用@WebServlet Annotation时，其常用的几个属性如下：</p>
 
 <ul>
-<li>name:                  指定该Servlet的名称</li>
-<li>urlPatterns/value:     指定该Servlet要处理的url</li>
-<li>initParams：           指定该Servlet的参数</li>
-<li>loadOnStartup:         指定该Servlet是否为load on startup 的Servlet</li>
+  <li>name:                  指定该Servlet的名称</li>
+  <li>urlPatterns/value:     指定该Servlet要处理的url</li>
+  <li>initParams：           指定该Servlet的参数</li>
+  <li>loadOnStartup:         指定该Servlet是否为load on startup 的Servlet</li>
 </ul>
 
-
-<h2>Servlet类作为控制器</h2>
+<h2 id="servlet-2">Servlet类作为控制器</h2>
 
 <p>在MVC模式中，Model通常由JavaBean来充当，用来实现业务逻辑、数据访问逻辑等; View通常由JSP来充当，用来收集用户的请求参数、将应用处理的结果和状态等返回呈现给用户等; Controller则由Servlet来充当，实现类似调度员的作用，即用户请求发送到Servlet，Servlet调用Model来处理用户请求，并将结果调用JSP呈现给用户。MVC模式通过对三者作用的分工，实现应用的解耦，方便多人协同开发同一个项目。</p>
 
@@ -196,7 +225,7 @@ public class LoginServlet extends HttpServlet {
                 ResultSet rs = dd.query("select pass from user_table"
                     + "where name = ?", username);
                 if (rs.next()) {
-
+            
                     //用户名和密码匹配
                     if (rs.getString("pass").equals(pass)) {
                         // 获取session对象
@@ -216,7 +245,7 @@ public class LoginServlet extends HttpServlet {
                     //用户名不存在时
                     errMsg += "您的用户名不存在，请先注册";
                 }
-
+            
             }
             catch (Exception e) {
                 out.println(errMsg);
@@ -323,39 +352,37 @@ public class DbDao {
 }
 </code></pre>
 
-<p>至此，一个完整的MVC模式的web应用就完成了，其中JSP充当View，用来提供用户交流界面; Servlet充当控制器, 起调动作用；JavaBean充当模型，处理业务逻辑和数据逻辑。</p>
+<p>至此，一个完整的MVC模式的web应用就完成了，其中JSP充当View，用来提供用户交流界面; Servlet充当控制器, 起调动作用；JavaBean充当模型，处理业务逻辑和数据逻辑。 </p>
 
-<h2>Servlet类相关</h2>
+<h2 id="servlet-3">Servlet类相关</h2>
 
-<h3>Filter</h3>
+<h3 id="filter">Filter</h3>
 
 <p>Filter可以看作Servlet的加强版，它是一个处理链，典型的使用流程是：使用Filter对用户请求进行预处理，然后将请求交给Servlet进行处理，最后对服务器响应进行后处理。Filter的作用主要有以下几个方面：</p>
 
 <ul>
-<li>拦截HttpServletRequest进行预处理，可以修改请求数据，然后交给Servlet处理</li>
-<li>拦截HttpServletResponse进行后处理，可以修改Servlet的处理结果，然后作为服务器的响应结果。</li>
+  <li>拦截HttpServletRequest进行预处理，可以修改请求数据，然后交给Servlet处理</li>
+  <li>拦截HttpServletResponse进行后处理，可以修改Servlet的处理结果，然后作为服务器的响应结果。</li>
 </ul>
-
 
 <p>Filter的使用和Servlet非常类似，包括定义Filter类和配置Filter两步。其中Filter类必须实现<code>javax.servlet.Filter</code>接口，主要功能在<code>doFilter()</code>函数内实现。Filter的配置也可使用@webFilter Annotation进行配置。</p>
 
-<h3>Listener</h3>
+<h3 id="listener">Listener</h3>
 
 <p>Listener完成对web应用内事件的监听和处理，从而允许当web应用内有事件发生时，可以回调事件监听器内的方法。Listener的使用与Servlet类似，分为定义Listener实现类和配置Listener两步。自定义的Listener类根据不同的web应用时间需实现不同的接口，常见的web监听器接口有以下几个：</p>
 
 <ul>
-<li>ServletContextListener: 用于监听web应用的启动和关闭</li>
-<li>ServletContextAttributerListener: 用于监听ServletContext范围（application）内属性的更改</li>
-<li>ServletRequestListener： 用于监听用户请求</li>
-<li>ServletRequestAttributerListener: 用于监听ServletRequest范围（request）内属性的更改</li>
-<li>ServletSessionListener： 用于监听用户Session的开始和结束</li>
-<li>ServletSessionAttributerListener: 用于监听ServletSession范围（session）内属性的更改</li>
+  <li>ServletContextListener: 用于监听web应用的启动和关闭</li>
+  <li>ServletContextAttributerListener: 用于监听ServletContext范围（application）内属性的更改</li>
+  <li>ServletRequestListener： 用于监听用户请求</li>
+  <li>ServletRequestAttributerListener: 用于监听ServletRequest范围（request）内属性的更改</li>
+  <li>ServletSessionListener： 用于监听用户Session的开始和结束</li>
+  <li>ServletSessionAttributerListener: 用于监听ServletSession范围（session）内属性的更改</li>
 </ul>
 
-
-<h2>参考</h2>
-
+<h2 id="section">参考</h2>
 <p><a href="http://book.douban.com/subject/6002664/">轻量级Java EE企业应用实战</a></p>
+
 </div>
 
 
@@ -466,6 +493,10 @@ public class DbDao {
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/04/28/linear-regression-of-machine-regression/">机器学习之线性回归</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/04/22/octopress-on-windows/">在windows 7 上部署已有的中文octopress博客</a>
       </li>
     
@@ -479,10 +510,6 @@ public class DbDao {
     
       <li class="post">
         <a href="/blog/2013/03/15/design-pattern-in-python-creational-ones/">设计模式：Python语言实现之创建型模式</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/02/27/javaee-learning-spring/">JavaEE学习之Spring技术</a>
       </li>
     
   </ul>

@@ -30,6 +30,37 @@
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript"
+   src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
   
 
 </head>
@@ -105,31 +136,30 @@
 
 <!-- more -->
 
-
-<h2>Struts2开发应用流程</h2>
+<h2 id="struts2">Struts2开发应用流程</h2>
 
 <p>这里用一个Struts2开发简单登录处理的web应用来介绍Struts2的开发应用流程</p>
 
-<h3>0. 为web应用添加Struts2支持</h3>
+<h3 id="webstruts2">0. 为web应用添加Struts2支持</h3>
 
 <p>将下载的Struts2中lib文件夹下的 <code>commons-fileupload-v.jar, commons-io-v.jar, freemaker-v.jar, javassit-v.jar, ognl-v.jar, struts2-core-v.jar, xwork-core-v.jar</code>等必须的支持文件（其中<code>-v</code>表示版本号，根据下载不同会有所不同）复制到web应用的<code>WEB-INF\lib</code>路径下，如需其他Struts2的支持，复制相应jar文件即可。</p>
 
-<h3>1. 编辑web应用的web.xml配置文件，配置Struts2的核心filter，并使其拦截相关请求。</h3>
+<h3 id="webwebxmlstruts2filter">1. 编辑web应用的web.xml配置文件，配置Struts2的核心filter，并使其拦截相关请求。</h3>
 
 <p>在web.xml配置文件中增加以下内容：</p>
 
 <pre><code>&lt;filter&gt;
-    &lt;filter-name&gt;struts2&lt;/filter-name&gt;
-    &lt;filter-class&gt;org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter&lt;/filter-class&gt;
+	&lt;filter-name&gt;struts2&lt;/filter-name&gt;
+	&lt;filter-class&gt;org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter&lt;/filter-class&gt;
 &lt;/filter&gt;
 
 &lt;filter-mapping&gt;
-    &lt;filter-name&gt;struts2&lt;/filter-name&gt;
-    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+	&lt;filter-name&gt;struts2&lt;/filter-name&gt;
+	&lt;url-pattern&gt;/*&lt;/url-pattern&gt;
 &lt;/filter-mapping&gt;
 </code></pre>
 
-<h3>2. 编写处理表单请求的JSP页面来发送POST方式请求，如果是GET方式请求，则此步不进行处理。</h3>
+<h3 id="jsppostget">2. 编写处理表单请求的JSP页面来发送POST方式请求，如果是GET方式请求，则此步不进行处理。</h3>
 
 <p>在本登录应用中，需要处理表单请求，编写login.jsp如下</p>
 
@@ -153,7 +183,7 @@
 
 <p>在本jsp的编写中声明使用了struts2的标签库，并使用该标签库来编写表单请求代码。</p>
 
-<h3>3. 定义处理用户请求的Action类</h3>
+<h3 id="action">3. 定义处理用户请求的Action类</h3>
 
 <p>在上述的jsp页面中指定了表单的action为login，因此需要实现一个java类来处理该请求动作。该类通常继承与ActionSupport基类，其代码如下：</p>
 
@@ -167,66 +197,66 @@ public class LoginAction extends ActionSupport
 
     public String getUsername()
     {
-        return username;
+	    return username;
     }
     public void setUsername(String username)
     {
-        this.username = username;
+	    this.username = username;
     }
 
     public String getPassword()
     {
-        return password;
+	    return password;
     }
     public void setPassword(String password)
     {
-        this.password = password;
+	    this.password = password;
     }
 
     public String execute() throws Exception
     {
-        if (getUsername().equals("easypi.github.com")
-            &amp;&amp; getPassword().equals("easypi") )
-        {
-            ActionContext.getContext().getSession()
-                .put("user" , getUsername());
-        return SUCCESS;
-        }
-        else
-        {
-            return ERROR;
-        }
+	    if (getUsername().equals("easypi.github.com")
+		    &amp;&amp; getPassword().equals("easypi") )
+	    {
+		    ActionContext.getContext().getSession()
+			    .put("user" , getUsername());
+	    return SUCCESS;
+	    }
+	    else
+	    {
+		    return ERROR;
+	    }
     }
 }
 </code></pre>
 
 <p>该类实现对登录的判断，如果用户名为<code>easypi.github.com</code>，密码为<code>easypi</code>则登录成功，否则失败。</p>
 
-<h3>4. 配置Action以及处理结果和物理视图资源之间的对应关系</h3>
+<h3 id="action-1">4. 配置Action以及处理结果和物理视图资源之间的对应关系</h3>
 
 <p>在定义了请求并实现了处理请求action的类之后，需要将请求与action对应起来，用来实现MVC模型。建立struts.xml放置在<code>WEB-INF\classes</code>路径下，使用该文件实现web应用的配置。该文件代码如下：</p>
 
 <pre><code>&lt;?xml version="1.0" encoding="GBK"?&gt;
-&lt;!DOCTYPE struts PUBLIC     "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+&lt;!DOCTYPE struts PUBLIC 	"-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
     "http://struts.apache.org/dtds/struts-2.1.7.dtd"&gt;
 &lt;struts&gt;
     &lt;package name="hou" extends="struts-default"&gt;
-        &lt;action name="login" class="LoginAction"&gt;   
-            &lt;result name="input"&gt;/login.jsp&lt;/result&gt;
-            &lt;result name="error"&gt;/error.jsp&lt;/result&gt;
-            &lt;result name="success"&gt;/welcome.jsp&lt;/result&gt;
-        &lt;/action&gt;
+	    &lt;action name="login" class="LoginAction"&gt;	
+		    &lt;result name="input"&gt;/login.jsp&lt;/result&gt;
+		    &lt;result name="error"&gt;/error.jsp&lt;/result&gt;
+		    &lt;result name="success"&gt;/welcome.jsp&lt;/result&gt;
+	    &lt;/action&gt;
     &lt;/package&gt;
 &lt;/struts&gt;
 </code></pre>
 
 <p>其中，将action的login请求使用LoginAction类来进行处理，并可以配置返回结果与物理视图资源之间的对应，如登录成功则进入welcome.jsp页面。</p>
 
-<h3>5. 实现物理视图资源</h3>
+<h3 id="section">5. 实现物理视图资源</h3>
 
 <p>使用Struts2开发的最后一步就是实现需要的视图资源，例如welcome.jsp, error.jsp等页面。至此则完成了使用Struts2开发web应用的全部流程，也实现了一次完整的请求响应流程。</p>
 
-<h2>Struts2 请求响应流程</h2>
+<h2 id="struts2-">Struts2 请求响应流程</h2>
 
 <p>Struts2的开发流程实际是根据请求响应流程而来的，一次请求响应流程如下。</p>
 
@@ -234,8 +264,7 @@ public class LoginAction extends ActionSupport
 
 <p>其中StrutsPrepareAndExecuteFilter称为核心控制器，xxxAction称为业务控制器。通过两级控制器实现解耦，实现xxxAction只处理返回结果，不与物理视图相连，方便代码更改。</p>
 
-<h2>参考</h2>
-
+<h2 id="section-1">参考</h2>
 <p><a href="http://book.douban.com/subject/6002664/">轻量级Java EE企业应用实战</a></p>
 </div>
 
@@ -347,6 +376,10 @@ public class LoginAction extends ActionSupport
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/04/28/linear-regression-of-machine-regression/">机器学习之线性回归</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/04/22/octopress-on-windows/">在windows 7 上部署已有的中文octopress博客</a>
       </li>
     
@@ -360,10 +393,6 @@ public class LoginAction extends ActionSupport
     
       <li class="post">
         <a href="/blog/2013/03/15/design-pattern-in-python-creational-ones/">设计模式：Python语言实现之创建型模式</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/02/27/javaee-learning-spring/">JavaEE学习之Spring技术</a>
       </li>
     
   </ul>

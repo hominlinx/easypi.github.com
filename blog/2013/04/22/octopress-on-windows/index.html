@@ -9,8 +9,7 @@
   <meta name="author" content="厚之成">
 
   
-  <meta name="description" content="之前在ubuntu下搭建了octopress的博客，现在想在实验室的windows 7上也搭建起来。网上的文章多为在windows搭建新的octopress博客，本文则是将已有的octopress博客部署到windows 7的环境下。 安装依赖 安装git
-安装ruby for windows, &hellip;">
+  <meta name="description" content="之前在ubuntu下搭建了octopress的博客，现在想在实验室的windows 7上也搭建起来。网上的文章多为在windows搭建新的octopress博客，本文则是将已有的octopress博客部署到windows 7的环境下。 安装依赖 安装git 安装ruby for windows, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -31,6 +30,37 @@
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript"
+   src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
   
 
 </head>
@@ -106,87 +136,180 @@
 
 <!--more-->
 
-
-<h2>安装依赖</h2>
+<h2 id="section">安装依赖</h2>
 
 <ol>
-<li><a href="http://git-scm.com/">安装git</a></li>
-<li><a href="http://rubyinstaller.org/downloads/">安装ruby for windows</a>,本文使用<a href="http://rubyforge.org/frs/download.php/76798/rubyinstaller-1.9.3-p392.exe">ruby 1.9.3-p392</a>,注意设置环境变量。</li>
-<li><a href="http://rubyinstaller.org/downloads/">安装ruby develop kit</a>, 本文使用<a href="https://github.com/downloads/oneclick/rubyinstaller/DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe">DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe</a> 并解压到文件夹如<code>c:\RubyDevKit</code></li>
-<li><p>cmd中运行命令</p>
+  <li><a href="http://git-scm.com/">安装git</a></li>
+  <li><a href="http://rubyinstaller.org/downloads/">安装ruby for windows</a>,本文使用<a href="http://rubyforge.org/frs/download.php/76798/rubyinstaller-1.9.3-p392.exe">ruby 1.9.3-p392</a>,注意设置环境变量。</li>
+  <li><a href="http://rubyinstaller.org/downloads/">安装ruby develop kit</a>, 本文使用<a href="https://github.com/downloads/oneclick/rubyinstaller/DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe">DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe</a> 并解压到文件夹如<code>c:\RubyDevKit</code></li>
+  <li>
+    <p>cmd中运行命令</p>
 
-<pre><code> cd C:/RubyDevKit
+    <pre><code> cd C:/RubyDevKit
  ruby dk.rb init
  ruby dk.rb install
-</code></pre></li>
+</code></pre>
+  </li>
 </ol>
 
-
-<h2>安装octopress</h2>
+<h2 id="octopress">安装octopress</h2>
 
 <ol>
-<li>创建博客文件夹，如<code>d:\myblog</code></li>
-<li><p>克隆自己的octopress到本地， <code>username 改为自己的</code></p>
+  <li>
+    <p>创建博客文件夹，如<code>d:\myblog</code></p>
+  </li>
+  <li>
+    <p>克隆自己的octopress到本地， <code>username 改为自己的</code></p>
 
-<pre><code> git clone -b source https://github.com/username/username.github.com.git octopress
+    <pre><code> git clone -b source https://github.com/username/username.github.com.git octopress
  cd octopress 
  git clone https://github.com/username/username.github.com.git _deploy #下载_deploy版本（用于发布）
-</code></pre></li>
-<li><p>安装octopress</p>
+</code></pre>
+  </li>
+  <li>
+    <p>安装octopress</p>
 
-<pre><code> gem install bundler
+    <pre><code> gem install bundler
  bundle install
-</code></pre></li>
-<li><p>解决中文支持问题。由于windows 7的默认字符编码为gbk，而octopress支持的是utf8。因此需要解决二者之间的冲突，否则对中文博客会产生错误。 最简单的解决方法如下：</p></li>
+</code></pre>
+  </li>
+  <li>
+    <p>解决中文支持问题。由于windows 7的默认字符编码为gbk，而octopress支持的是utf8。因此需要解决二者之间的冲突，否则对中文博客会产生错误。 最简单的解决方法如下：</p>
+
+    <p>4.1 打开git bash， 运行<code>cd </code>到用户根文件夹</p>
+
+    <p>4.2 查看目录下是否存在<code>.bash_profile</code>,如果不存在则使用<code>touch .bash_profile</code>新建该文件.</p>
+
+    <p>4.3 编辑<code>.bash_profile</code>，添加如下两行</p>
+
+    <pre><code>     export   LC_ALL=zh_CN.UTF-8
+     export   LANG=zh_CN.UTF-8
+</code></pre>
+
+    <p>4.4 重启git bash， 切换到octopress目录，生成博客并预览观察是否部署成功</p>
+
+    <pre><code>     rake generate
+     rake preview
+</code></pre>
+  </li>
+  <li>
+    <p>（可选）latex数学公式支持。如果需要博客支持数学公式，则进行该步，否则已完成。</p>
+
+    <p>5.1 安装<code>kramdown</code>包</p>
+
+    <pre><code>     gem install kramdown
+</code></pre>
+
+    <p>5.2 修改<code>_config.yml</code>设定，找到octopress目录下动<code>_config.yml</code>文件，找到markdown，并将<code>rdiscount</code>修改为<code>kramdown</code>.</p>
+
+    <p>5.3 将mathjax引入博客系统。在<code>/source/_includes/custom/head.html</code>中添加如下内容</p>
+
+    <pre><code>     &lt;!-- mathjax config similar to math.stackexchange --&gt;
+
+     &lt;script type="text/x-mathjax-config"&gt;
+       MathJax.Hub.Config({
+         tex2jax: {
+           inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+           processEscapes: true
+         }
+       });
+     &lt;/script&gt;
+
+     &lt;script type="text/x-mathjax-config"&gt;
+         MathJax.Hub.Config({
+           tex2jax: {
+             skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+           }
+         });
+     &lt;/script&gt;
+
+     &lt;script type="text/x-mathjax-config"&gt;
+         MathJax.Hub.Queue(function() {
+             var all = MathJax.Hub.getAllJax(), i;
+             for(i=0; i &lt; all.length; i += 1) {
+                 all[i].SourceElement().parentNode.className += ' has-jax';
+             }
+         });
+     &lt;/script&gt;
+
+     &lt;script type="text/javascript"
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"&gt;
+     &lt;/script&gt;
+</code></pre>
+
+    <p>5.4 在博客中添加如下公式，查看效果</p>
+
+    <pre><code>     $$
+     \begin{align*}
+       &amp; \phi(x,y) = \phi \left(\sum_{i=1}^n x_ie_i, \sum_{j=1}^n y_je_j \right)
+       = \sum_{i=1}^n \sum_{j=1}^n x_i y_j \phi(e_i, e_j) = \\
+       &amp; (x_1, \ldots, x_n) \left( \begin{array}{ccc}
+           \phi(e_1, e_1) &amp; \cdots &amp; \phi(e_1, e_n) \\
+           \vdots &amp; \ddots &amp; \vdots \\
+           \phi(e_n, e_1) &amp; \cdots &amp; \phi(e_n, e_n)
+         \end{array} \right)
+       \left( \begin{array}{c}
+           y_1 \\
+           \vdots \\
+           y_n
+         \end{array} \right)
+     \end{align*}
+     $$
+</code></pre>
+
+    <p>效果为：</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+
+ \begin{align*}
+   & \phi(x,y) = \phi \left(\sum_{i=1}^n x_ie_i, \sum_{j=1}^n y_je_j \right)
+   = \sum_{i=1}^n \sum_{j=1}^n x_i y_j \phi(e_i, e_j) = \\
+   & (x_1, \ldots, x_n) \left( \begin{array}{ccc}
+       \phi(e_1, e_1) & \cdots & \phi(e_1, e_n) \\
+       \vdots & \ddots & \vdots \\
+       \phi(e_n, e_1) & \cdots & \phi(e_n, e_n)
+     \end{array} \right)
+   \left( \begin{array}{c}
+       y_1 \\
+       \vdots \\
+       y_n
+     \end{array} \right)
+ \end{align*}
+  %]]></script>
+  </li>
 </ol>
 
-
-<p>4.1 打开git bash， 运行<code>cd</code>到用户根文件夹</p>
-
-<p>4.2 查看目录下是否存在<code>.bash_profile</code>,如果不存在则使用<code>touch .bash_profile</code>新建该文件.</p>
-
-<p>4.3 编辑<code>.bash_profile</code>，添加如下两行</p>
-
-<pre><code>    export   LC_ALL=zh_CN.UTF-8
-    export   LANG=zh_CN.UTF-8
-</code></pre>
-
-<p>4.4 重启git bash， 切换到octopress目录，生成博客并预览观察是否部署成功</p>
-
-<pre><code>    rake generate
-    rake preview
-</code></pre>
-
-<h2>博客发布流程记录</h2>
+<h2 id="section-1">博客发布流程记录</h2>
 
 <p>由于只更改了git bash的配置文件，因此博客发布都在git bash下进行。</p>
 
 <ol>
-<li><p>新建博客&#8211;>编辑 &#8211;> 生成 &#8211;> 预览 &#8211;> 发布</p>
+  <li>
+    <p>新建博客–&gt;编辑 –&gt; 生成 –&gt; 预览 –&gt; 发布</p>
 
-<pre><code> rake new_post['title'] 
+    <pre><code> rake new_post['title'] 
  # edit markdown file
  rake generate
  rake preview
  rake deploy
-</code></pre></li>
-<li><p>备份源码到source分支</p>
+</code></pre>
+  </li>
+  <li>
+    <p>备份源码到source分支</p>
 
-<pre><code> git add .
+    <pre><code> git add .
  git commit -m "commit comments"
  git push origin source
-</code></pre></li>
+</code></pre>
+  </li>
 </ol>
 
-
-<h2>参考</h2>
-
+<h2 id="section-2">参考</h2>
 <ul>
-<li><a href="http://stb.techelex.com/setup-octopress-on-windows7/">Setup Octopress on Windows7</a></li>
-<li><a href="http://www.cnblogs.com/hangxin1940/archive/2012/03/19/2806438.html">为自己现有的github octopress配置环境</a></li>
-<li><a href="http://sinosmond.github.io/blog/2012/03/12/install-and-deploy-octopress-to-github-on-windows7-from-scratch/">在 Windows7 下从头开始安装部署 Octopress</a></li>
+  <li><a href="http://stb.techelex.com/setup-octopress-on-windows7/">Setup Octopress on Windows7</a></li>
+  <li><a href="http://www.cnblogs.com/hangxin1940/archive/2012/03/19/2806438.html">为自己现有的github octopress配置环境</a></li>
+  <li><a href="http://sinosmond.github.io/blog/2012/03/12/install-and-deploy-octopress-to-github-on-windows7-from-scratch/">在 Windows7 下从头开始安装部署 Octopress</a></li>
 </ul>
-
 </div>
 
 
@@ -282,6 +405,8 @@
         <a class="basic-alignment left articlenav" href="/blog/2013/04/02/design-pattern-in-python-behavioral-ones/" title="Previous Post: 设计模式：Python语言实现之行为型模式">&laquo; 设计模式：Python语言实现之行为型模式</a>
       
       
+        <a class="basic-alignment right articlenav" href="/blog/2013/04/28/linear-regression-of-machine-regression/" title="Next Post: 机器学习之线性回归">机器学习之线性回归 &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -293,6 +418,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/04/28/linear-regression-of-machine-regression/">机器学习之线性回归</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/04/22/octopress-on-windows/">在windows 7 上部署已有的中文octopress博客</a>
@@ -308,10 +437,6 @@
     
       <li class="post">
         <a href="/blog/2013/03/15/design-pattern-in-python-creational-ones/">设计模式：Python语言实现之创建型模式</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/02/27/javaee-learning-spring/">JavaEE学习之Spring技术</a>
       </li>
     
   </ul>

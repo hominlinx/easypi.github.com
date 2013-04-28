@@ -9,9 +9,9 @@
   <meta name="author" content="厚之成">
 
   
-  <meta name="description" content="Blog Archive 2013 在windows 7 上部署已有的中文octopress博客
-Apr 22 2013 posted in summary 设计模式：Python语言实现之行为型模式
-Apr 02 2013 posted in DesignPattern, note 设计模式： &hellip;">
+  <meta name="description" content="Blog Archive 2013 机器学习之线性回归
+Apr 28 2013 posted in MachineLearning, notes 在windows 7 上部署已有的中文octopress博客
+Apr 22 2013 posted in summary 设计模式： &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -32,6 +32,37 @@ Apr 02 2013 posted in DesignPattern, note 设计模式： &hellip;">
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript"
+   src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
   
 
 </head>
@@ -87,6 +118,20 @@ Apr 02 2013 posted in DesignPattern, note 设计模式： &hellip;">
 
   
   <h2>2013</h2>
+
+<article>
+  
+<h1><a href="/blog/2013/04/28/linear-regression-of-machine-regression/">机器学习之线性回归</a></h1>
+<time datetime="2013-04-28T16:56:00+08:00" pubdate><span class='month'>Apr</span> <span class='day'>28</span> <span class='year'>2013</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/machinelearning/'>MachineLearning</a>, <a class='category' href='/blog/categories/notes/'>notes</a></span>
+</footer>
+
+
+</article>
+
+
 
 <article>
   
@@ -240,6 +285,10 @@ Apr 02 2013 posted in DesignPattern, note 设计模式： &hellip;">
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/04/28/linear-regression-of-machine-regression/">机器学习之线性回归</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/04/22/octopress-on-windows/">在windows 7 上部署已有的中文octopress博客</a>
       </li>
     
@@ -253,10 +302,6 @@ Apr 02 2013 posted in DesignPattern, note 设计模式： &hellip;">
     
       <li class="post">
         <a href="/blog/2013/03/15/design-pattern-in-python-creational-ones/">设计模式：Python语言实现之创建型模式</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/02/27/javaee-learning-spring/">JavaEE学习之Spring技术</a>
       </li>
     
   </ul>

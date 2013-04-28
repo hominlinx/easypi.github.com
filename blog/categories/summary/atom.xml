@@ -4,7 +4,7 @@
   <title><![CDATA[Category: summary | easypi's blog]]></title>
   <link href="http://easypi.github.com/blog/categories/summary/atom.xml" rel="self"/>
   <link href="http://easypi.github.com/"/>
-  <updated>2013-04-23T13:37:52+08:00</updated>
+  <updated>2013-04-28T17:23:10+08:00</updated>
   <id>http://easypi.github.com/</id>
   <author>
     <name><![CDATA[厚之成]]></name>
@@ -22,87 +22,180 @@
 
 <!--more-->
 
-
-<h2>安装依赖</h2>
+<h2 id="section">安装依赖</h2>
 
 <ol>
-<li><a href="http://git-scm.com/">安装git</a></li>
-<li><a href="http://rubyinstaller.org/downloads/">安装ruby for windows</a>,本文使用<a href="http://rubyforge.org/frs/download.php/76798/rubyinstaller-1.9.3-p392.exe">ruby 1.9.3-p392</a>,注意设置环境变量。</li>
-<li><a href="http://rubyinstaller.org/downloads/">安装ruby develop kit</a>, 本文使用<a href="https://github.com/downloads/oneclick/rubyinstaller/DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe">DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe</a> 并解压到文件夹如<code>c:\RubyDevKit</code></li>
-<li><p>cmd中运行命令</p>
+  <li><a href="http://git-scm.com/">安装git</a></li>
+  <li><a href="http://rubyinstaller.org/downloads/">安装ruby for windows</a>,本文使用<a href="http://rubyforge.org/frs/download.php/76798/rubyinstaller-1.9.3-p392.exe">ruby 1.9.3-p392</a>,注意设置环境变量。</li>
+  <li><a href="http://rubyinstaller.org/downloads/">安装ruby develop kit</a>, 本文使用<a href="https://github.com/downloads/oneclick/rubyinstaller/DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe">DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe</a> 并解压到文件夹如<code>c:\RubyDevKit</code></li>
+  <li>
+    <p>cmd中运行命令</p>
 
-<pre><code> cd C:/RubyDevKit
+    <pre><code> cd C:/RubyDevKit
  ruby dk.rb init
  ruby dk.rb install
-</code></pre></li>
+</code></pre>
+  </li>
 </ol>
 
-
-<h2>安装octopress</h2>
+<h2 id="octopress">安装octopress</h2>
 
 <ol>
-<li>创建博客文件夹，如<code>d:\myblog</code></li>
-<li><p>克隆自己的octopress到本地， <code>username 改为自己的</code></p>
+  <li>
+    <p>创建博客文件夹，如<code>d:\myblog</code></p>
+  </li>
+  <li>
+    <p>克隆自己的octopress到本地， <code>username 改为自己的</code></p>
 
-<pre><code> git clone -b source https://github.com/username/username.github.com.git octopress
+    <pre><code> git clone -b source https://github.com/username/username.github.com.git octopress
  cd octopress 
  git clone https://github.com/username/username.github.com.git _deploy #下载_deploy版本（用于发布）
-</code></pre></li>
-<li><p>安装octopress</p>
+</code></pre>
+  </li>
+  <li>
+    <p>安装octopress</p>
 
-<pre><code> gem install bundler
+    <pre><code> gem install bundler
  bundle install
-</code></pre></li>
-<li><p>解决中文支持问题。由于windows 7的默认字符编码为gbk，而octopress支持的是utf8。因此需要解决二者之间的冲突，否则对中文博客会产生错误。 最简单的解决方法如下：</p></li>
+</code></pre>
+  </li>
+  <li>
+    <p>解决中文支持问题。由于windows 7的默认字符编码为gbk，而octopress支持的是utf8。因此需要解决二者之间的冲突，否则对中文博客会产生错误。 最简单的解决方法如下：</p>
+
+    <p>4.1 打开git bash， 运行<code>cd </code>到用户根文件夹</p>
+
+    <p>4.2 查看目录下是否存在<code>.bash_profile</code>,如果不存在则使用<code>touch .bash_profile</code>新建该文件.</p>
+
+    <p>4.3 编辑<code>.bash_profile</code>，添加如下两行</p>
+
+    <pre><code>     export   LC_ALL=zh_CN.UTF-8
+     export   LANG=zh_CN.UTF-8
+</code></pre>
+
+    <p>4.4 重启git bash， 切换到octopress目录，生成博客并预览观察是否部署成功</p>
+
+    <pre><code>     rake generate
+     rake preview
+</code></pre>
+  </li>
+  <li>
+    <p>（可选）latex数学公式支持。如果需要博客支持数学公式，则进行该步，否则已完成。</p>
+
+    <p>5.1 安装<code>kramdown</code>包</p>
+
+    <pre><code>     gem install kramdown
+</code></pre>
+
+    <p>5.2 修改<code>_config.yml</code>设定，找到octopress目录下动<code>_config.yml</code>文件，找到markdown，并将<code>rdiscount</code>修改为<code>kramdown</code>.</p>
+
+    <p>5.3 将mathjax引入博客系统。在<code>/source/_includes/custom/head.html</code>中添加如下内容</p>
+
+    <pre><code>     &lt;!-- mathjax config similar to math.stackexchange --&gt;
+
+     &lt;script type="text/x-mathjax-config"&gt;
+       MathJax.Hub.Config({
+         tex2jax: {
+           inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+           processEscapes: true
+         }
+       });
+     &lt;/script&gt;
+
+     &lt;script type="text/x-mathjax-config"&gt;
+         MathJax.Hub.Config({
+           tex2jax: {
+             skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+           }
+         });
+     &lt;/script&gt;
+
+     &lt;script type="text/x-mathjax-config"&gt;
+         MathJax.Hub.Queue(function() {
+             var all = MathJax.Hub.getAllJax(), i;
+             for(i=0; i &lt; all.length; i += 1) {
+                 all[i].SourceElement().parentNode.className += ' has-jax';
+             }
+         });
+     &lt;/script&gt;
+
+     &lt;script type="text/javascript"
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"&gt;
+     &lt;/script&gt;
+</code></pre>
+
+    <p>5.4 在博客中添加如下公式，查看效果</p>
+
+    <pre><code>     $$
+     \begin{align*}
+       &amp; \phi(x,y) = \phi \left(\sum_{i=1}^n x_ie_i, \sum_{j=1}^n y_je_j \right)
+       = \sum_{i=1}^n \sum_{j=1}^n x_i y_j \phi(e_i, e_j) = \\
+       &amp; (x_1, \ldots, x_n) \left( \begin{array}{ccc}
+           \phi(e_1, e_1) &amp; \cdots &amp; \phi(e_1, e_n) \\
+           \vdots &amp; \ddots &amp; \vdots \\
+           \phi(e_n, e_1) &amp; \cdots &amp; \phi(e_n, e_n)
+         \end{array} \right)
+       \left( \begin{array}{c}
+           y_1 \\
+           \vdots \\
+           y_n
+         \end{array} \right)
+     \end{align*}
+     $$
+</code></pre>
+
+    <p>效果为：</p>
+
+<script type="math/tex; mode=display">% &lt;![CDATA[
+
+ \begin{align*}
+   & \phi(x,y) = \phi \left(\sum_{i=1}^n x_ie_i, \sum_{j=1}^n y_je_j \right)
+   = \sum_{i=1}^n \sum_{j=1}^n x_i y_j \phi(e_i, e_j) = \\
+   & (x_1, \ldots, x_n) \left( \begin{array}{ccc}
+       \phi(e_1, e_1) & \cdots & \phi(e_1, e_n) \\
+       \vdots & \ddots & \vdots \\
+       \phi(e_n, e_1) & \cdots & \phi(e_n, e_n)
+     \end{array} \right)
+   \left( \begin{array}{c}
+       y_1 \\
+       \vdots \\
+       y_n
+     \end{array} \right)
+ \end{align*}
+  %]]&gt;</script>
+  </li>
 </ol>
 
-
-<p>4.1 打开git bash， 运行<code>cd</code>到用户根文件夹</p>
-
-<p>4.2 查看目录下是否存在<code>.bash_profile</code>,如果不存在则使用<code>touch .bash_profile</code>新建该文件.</p>
-
-<p>4.3 编辑<code>.bash_profile</code>，添加如下两行</p>
-
-<pre><code>    export   LC_ALL=zh_CN.UTF-8
-    export   LANG=zh_CN.UTF-8
-</code></pre>
-
-<p>4.4 重启git bash， 切换到octopress目录，生成博客并预览观察是否部署成功</p>
-
-<pre><code>    rake generate
-    rake preview
-</code></pre>
-
-<h2>博客发布流程记录</h2>
+<h2 id="section-1">博客发布流程记录</h2>
 
 <p>由于只更改了git bash的配置文件，因此博客发布都在git bash下进行。</p>
 
 <ol>
-<li><p>新建博客-->编辑 --> 生成 --> 预览 --> 发布</p>
+  <li>
+    <p>新建博客–&gt;编辑 –&gt; 生成 –&gt; 预览 –&gt; 发布</p>
 
-<pre><code> rake new_post['title'] 
+    <pre><code> rake new_post['title'] 
  # edit markdown file
  rake generate
  rake preview
  rake deploy
-</code></pre></li>
-<li><p>备份源码到source分支</p>
+</code></pre>
+  </li>
+  <li>
+    <p>备份源码到source分支</p>
 
-<pre><code> git add .
+    <pre><code> git add .
  git commit -m "commit comments"
  git push origin source
-</code></pre></li>
+</code></pre>
+  </li>
 </ol>
 
-
-<h2>参考</h2>
-
+<h2 id="section-2">参考</h2>
 <ul>
-<li><a href="http://stb.techelex.com/setup-octopress-on-windows7/">Setup Octopress on Windows7</a></li>
-<li><a href="http://www.cnblogs.com/hangxin1940/archive/2012/03/19/2806438.html">为自己现有的github octopress配置环境</a></li>
-<li><a href="http://sinosmond.github.io/blog/2012/03/12/install-and-deploy-octopress-to-github-on-windows7-from-scratch/">在 Windows7 下从头开始安装部署 Octopress</a></li>
+  <li><a href="http://stb.techelex.com/setup-octopress-on-windows7/">Setup Octopress on Windows7</a></li>
+  <li><a href="http://www.cnblogs.com/hangxin1940/archive/2012/03/19/2806438.html">为自己现有的github octopress配置环境</a></li>
+  <li><a href="http://sinosmond.github.io/blog/2012/03/12/install-and-deploy-octopress-to-github-on-windows7-from-scratch/">在 Windows7 下从头开始安装部署 Octopress</a></li>
 </ul>
-
 ]]></content>
   </entry>
   
@@ -117,12 +210,11 @@
 
 <!--more-->
 
-
-<h2>安装</h2>
+<h2 id="section">安装</h2>
 
 <p>Octopress的安装还是很方便的,按照其官方文档<a href="http://octopress.org/docs/setup">http://octopress.org/docs/setup</a>就能安装成功,在此只是翻译和简单罗列一下。</p>
 
-<h3>安装Ruby</h3>
+<h3 id="ruby">安装Ruby</h3>
 
 <p>大家现在应该已经有了git系统，关于git本文不多做介绍，默认大家已经会用git系统了。</p>
 
@@ -133,13 +225,13 @@
 
 <p>现在终端中输入<code>ruby --version</code>查看版本信息应该是正确了。如果之前安装过Ruby但是版本不符合的，则需要使用rbenv或RVM来进行安装，具体可查看<a href="http://octopress.org/docs/setup/rbenv/">http://octopress.org/docs/setup/rbenv/</a> 或 <a href="http://octopress.org/docs/setup/rvm/">http://octopress.org/docs/setup/rvm/</a>.</p>
 
-<h3>安装Octopress</h3>
+<h3 id="octopress">安装Octopress</h3>
 
 <p>首先将Octopress工具clone到本地一文件夹：
 <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/imathis/octopress.git octopress
-</span><span class='line'>cd octopress &lt;br/></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span><span class='line'>cd octopress &lt;br /></span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>然后安装其它依赖
 <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -155,7 +247,7 @@
 
 <p>至此Octopress安装完成。</p>
 
-<h2>配置github pages</h2>
+<h2 id="github-pages">配置github pages</h2>
 
 <p>github pages 可以提供一个域名为<code>http://username.github.com</code>的博客，首先需要在github新建一个名为<code>username.github.com</code>的代码仓库，然后就可以使用Octopress博客部署到该域名上了。(该username必须与你在github上的用户名一致)</p>
 
@@ -175,18 +267,18 @@
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>git add .
-</span><span class='line'>git commit -m 'your message'
+</span><span class='line'>git commit -m ‘your message’
 </span><span class='line'>git push origin source</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<h2>配置Octopress</h2>
+<h2 id="octopress-1">配置Octopress</h2>
 
 <p>Octopress的配置主要在<code>_config.yml</code>文件中，可以配置博客的主副标题，作者名，邮箱等，配置十分方便。在此建议将国内不能使用的功能，如twitter,google+等相关项设为false或直接删除，随后将介绍如何使用新浪微博等代替。</p>
 
-<h2>开始写文章</h2>
+<h2 id="section-1">开始写文章</h2>
 
 <p>使用Octopress书写和发布文章只需几条命令即可。首先运行
 <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rake new_post["title"]</span></code></pre></td></tr></table></div></figure></notextile></div>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake new_post[“title”]</span></code></pre></td></tr></table></div></figure></notextile></div>
 该命令将会在<code>source/_posts</code>目录下生成一个名为<code>YYYY-MM-DD-post-title.markdown</code>的文件，编辑该文件即可书写你的文章了。文章书写使用markdown语法，<a href="http://wowubuntu.com/markdown/index.html">http://wowubuntu.com/markdown/index.html</a>给出了markdown语法的介绍，该语法简单方便。</p>
 
 <p>在文章书写完成后，就可以生成静态网页了：
@@ -201,18 +293,17 @@
 
 <p>至此，你已经可以在自己的博客上写文章了。<a href="http://octopress.org/docs/blogging/plugins/">http://octopress.org/docs/blogging/plugins/</a>这里给出了常用的书写文章时可以添加代码、图片、视频等内容的语法，用此可以生成图文并茂的文章。</p>
 
-<h2>高级配置</h2>
-
+<h2 id="section-2">高级配置</h2>
 <p>在此部分主要介绍在侧边增加新浪微博秀，在文章底部增加分享到和评论的功能。</p>
 
-<h3>新浪微博秀</h3>
+<h3 id="section-3">新浪微博秀</h3>
 
 <ul>
-<li>在<code>_config.yml</code>文件中将<code>default_asides</code>处代码改为如下，即去除不要的侧边栏，并加入微博侧边栏。
+  <li>在<code>_config.yml</code>文件中将<code>default_asides</code>处代码改为如下，即去除不要的侧边栏，并加入微博侧边栏。
 <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>default_asides: [asides/recent_posts.html, asides/github.html, custom/asides/weibo.html]</span></code></pre></td></tr></table></div></figure></notextile></div></li>
-<li>到<a href="http://app.weibo.com/tool/weiboshow">http://app.weibo.com/tool/weiboshow</a>获取自己微博秀的代码。</li>
-<li><p>在<code>source/_includes/custom/asides</code>文件夹下新建weibo.html文件并编辑如下,将获取的微博秀代码插入到相应位置：
+</pre></td><td class='code'><pre><code class=''><span class='line'>default_asides: [asides/recent_posts.html, asides/github.html, custom/asides/weibo.html]</span></code></pre></td></tr></table></div></figure></notextile></div>    </li>
+  <li>到<a href="http://app.weibo.com/tool/weiboshow">http://app.weibo.com/tool/weiboshow</a>获取自己微博秀的代码。</li>
+  <li>在<code>source/_includes/custom/asides</code>文件夹下新建weibo.html文件并编辑如下,将获取的微博秀代码插入到相应位置：
 <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -223,56 +314,56 @@
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;section>
-</span><span class='line'> &lt;h1>新浪微博&lt;/h1>
-</span><span class='line'> &lt;ul id="weibo">
-</span><span class='line'> &lt;li>&lt;/p>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/li>
+</span><span class='line'>&lt;/ul>
+</span><span class='line'>&lt;section>
+</span><span class='line'>    &lt;h1>新浪微博&lt;/h1>
+</span><span class='line'>    &lt;ul id="weibo">
+</span><span class='line'>    &lt;li>
 </span><span class='line'>
-</span><span class='line'>&lt;p> &lt;!-- 在此插入获得的微博秀代码 -->&lt;/p>
+</span><span class='line'>    &lt;!-- 在此插入获得的微博秀代码 -->
 </span><span class='line'>
-</span><span class='line'>&lt;p>   &lt;/li>
-</span><span class='line'> &lt;/ul>
-</span><span class='line'>&lt;/section></span></code></pre></td></tr></table></div></figure></notextile></div></p></li>
-</ul>
-
+</span><span class='line'>      &lt;/li>
+</span><span class='line'>    &lt;/ul>
+</span><span class='line'>&lt;/section>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>至此你的侧边就有了你自己的微博秀了。</p>
 
-<h3>分享到和评论功能</h3>
+<h3 id="section-4">分享到和评论功能</h3>
 
 <ul>
-<li><p>在<code>_config.yml</code>文件中增加一项，可用此来控制是否开启分享到和评论功能，设为<code>false</code>则可关闭：
+  <li>
+    <p>在<code>_config.yml</code>文件中增加一项，可用此来控制是否开启分享到和评论功能，设为<code>false</code>则可关闭：
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Sina Weibo
+</span><span class='line'>weibo_sharing: true</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+  </li>
+  <li>
+    <p>编辑<code>/source/_includes/post/sharing.html</code>,增加如下代码：
 <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>Sina Weibo&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p>weibo_sharing: true</span></code></pre></td></tr></table></div></figure></notextile></div></p></li>
-<li><p>编辑<code>/source/_includes/post/sharing.html</code>,增加如下代码：
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>//下面的大括号与百分号间无空格，如果复制，请去掉&lt;br/>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//下面的大括号与百分号间无空格，如果复制，请去掉&lt;br />
 </span><span class='line'>{ % if site.weibo_sharing % }
 </span><span class='line'>{ % include custom/weibo_sharing.html % }
-</span><span class='line'>{ % endif % }</span></code></pre></td></tr></table></div></figure></notextile></div></p></li>
-<li><p>在<code>source/_includes/custom</code>下新建<code>weibo_sharing.html</code>文件。</p></li>
-<li>到<a href="http://www.bshare.cn/">http://www.bshare.cn/</a>获取喜欢按钮样式的分享代码，加入到<code>weibo_sharing.html</code>中，即可增加分享到按钮功能。</li>
-<li>到<a href="http://www.uyan.cc/">http://www.uyan.cc/</a>获取评论功能的代码，加入到<code>weibo_sharing.html</code>中，即可增加评论功能。</li>
+</span><span class='line'>{ % endif % }</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+  </li>
+  <li>在<code>source/_includes/custom</code>下新建<code>weibo_sharing.html</code>文件。</li>
+  <li>到<a href="http://www.bshare.cn/">http://www.bshare.cn/</a>获取喜欢按钮样式的分享代码，加入到<code>weibo_sharing.html</code>中，即可增加分享到按钮功能。</li>
+  <li>到<a href="http://www.uyan.cc/">http://www.uyan.cc/</a>获取评论功能的代码，加入到<code>weibo_sharing.html</code>中，即可增加评论功能。</li>
 </ul>
 
-
-<h2>参考</h2>
-
+<h2 id="section-5">参考</h2>
 <ul>
-<li><a href="http://octopress.org/docs/">http://octopress.org/docs/</a></li>
-<li><a href="https://help.github.com/categories/20/articles">https://help.github.com/categories/20/articles</a></li>
-<li><a href="http://blog.devtang.com/blog/2012/02/10/setup-blog-based-on-github/">http://blog.devtang.com/blog/2012/02/10/setup-blog-based-on-github/</a></li>
+  <li><a href="http://octopress.org/docs/">http://octopress.org/docs/</a></li>
+  <li><a href="https://help.github.com/categories/20/articles">https://help.github.com/categories/20/articles</a></li>
+  <li><a href="http://blog.devtang.com/blog/2012/02/10/setup-blog-based-on-github/">http://blog.devtang.com/blog/2012/02/10/setup-blog-based-on-github/</a></li>
 </ul>
 
 ]]></content>

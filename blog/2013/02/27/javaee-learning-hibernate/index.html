@@ -30,6 +30,37 @@
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript"
+   src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
   
 
 </head>
@@ -105,14 +136,13 @@
 
 <!-- more -->
 
+<h2 id="hibernate">Hibernate框架使用流程</h2>
 
-<h2>Hibernate框架使用流程</h2>
-
-<h3>0. 为web应用添加Hibernate支持</h3>
+<h3 id="webhibernate">0. 为web应用添加Hibernate支持</h3>
 
 <p>将下载的hibernate-v.jar和lib路径下的required,bytecode,jpa子目录下的所有jar包添加到应用的类加载路径下，即可使用hibernate。</p>
 
-<h3>1. 开发PO（持久化对象）</h3>
+<h3 id="po">1. 开发PO（持久化对象）</h3>
 
 <p>持久化对象可以实现以面向对象的方式进行数据库操作,hibernate中的持久化对象由普通java类和映射文件两部分构成。一个简单的POJO类如下</p>
 
@@ -122,24 +152,24 @@
     private String content;
 
     public Integer getId() {
-        return id;
+	    return id;
     }
     public void setId(Integer id) {
-        this.id = id;
+	    this.id = id;
     }
 
     public String getTitle() {
-        return title;
+	    return title;
     }
     public void setTitle(String title) {
-        this.title = title;
+	    this.title = title;
     }
 
     public String getContent() {
-        return content;
+	    return content;
     }
     public void setContent(String content) {
-        this.content = content;
+	    this.content = content;
     }
 }
 </code></pre>
@@ -154,23 +184,23 @@
 
 &lt;hibernate-mapping&gt;
     &lt;class name="News" table="news_table"&gt;
-        &lt;id name="id" type="java.lang.Integer"&gt;
-            &lt;column name="id" /&gt;
-            &lt;generator class="identity" /&gt;
-        &lt;/id&gt;
-        &lt;property name="title" type="java.lang.String"&gt;
-            &lt;column name="title" /&gt;
-        &lt;/property&gt;
-        &lt;property name="content" type="java.lang.String"&gt;
-            &lt;column name="content" /&gt;
-        &lt;/property&gt;
+	    &lt;id name="id" type="java.lang.Integer"&gt;
+		    &lt;column name="id" /&gt;
+		    &lt;generator class="identity" /&gt;
+	    &lt;/id&gt;
+	    &lt;property name="title" type="java.lang.String"&gt;
+		    &lt;column name="title" /&gt;
+	    &lt;/property&gt;
+	    &lt;property name="content" type="java.lang.String"&gt;
+		    &lt;column name="content" /&gt;
+	    &lt;/property&gt;
     &lt;/class&gt;
 &lt;/hibernate-mapping&gt;
 </code></pre>
 
 <p>通过对hibernate-mapping中的class进行配置，即可完成持久化对象的开发。</p>
 
-<h3>2. 编写Hibernate通用配置信息</h3>
+<h3 id="hibernate-1">2. 编写Hibernate通用配置信息</h3>
 
 <p>对于web应用中连接数据库，以及数据库的配置信息是通用的，通过配置Hibernate的通用信息进行指定要连接的数据库，登录用户名和密码等。该配置通过xml文件完成，内容如下：</p>
 
@@ -181,32 +211,31 @@
     "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd"&gt;
 &lt;hibernate-configuration&gt;
     &lt;session-factory&gt;
-        &lt;property name="hibernate.connection.driver_class"&gt;com.mysql.jdbc.Driver&lt;/property&gt;
-        &lt;property name="hibernate.connection.password"&gt;32147&lt;/property&gt;
-        &lt;property name="hibernate.connection.url"&gt;jdbc:mysql://localhost:3306/hibernate&lt;/property&gt;
-        &lt;property name="hibernate.connection.username"&gt;root&lt;/property&gt;
-        &lt;property name="hibernate.dialect"&gt;org.hibernate.dialect.MySQLInnoDBDialect&lt;/property&gt;
+	    &lt;property name="hibernate.connection.driver_class"&gt;com.mysql.jdbc.Driver&lt;/property&gt;
+	    &lt;property name="hibernate.connection.password"&gt;32147&lt;/property&gt;
+	    &lt;property name="hibernate.connection.url"&gt;jdbc:mysql://localhost:3306/hibernate&lt;/property&gt;
+	    &lt;property name="hibernate.connection.username"&gt;root&lt;/property&gt;
+	    &lt;property name="hibernate.dialect"&gt;org.hibernate.dialect.MySQLInnoDBDialect&lt;/property&gt;
         &lt;property name="hibernate.format_sql"&gt;true&lt;/property&gt;
-        &lt;property name="hibernate.hbm2ddl.auto"&gt;update&lt;/property&gt;   
+	    &lt;property name="hibernate.hbm2ddl.auto"&gt;update&lt;/property&gt;	
 
-        &lt;mapping resource="org/crazyit/app/domain/News.hbm.xml"/&gt;
-
+	    &lt;mapping resource="org/crazyit/app/domain/News.hbm.xml"/&gt;
+				       
     &lt;/session-factory&gt;
 &lt;/hibernate-configuration&gt;
 </code></pre>
 
-<h3>3. 编写操作类代码，使用面向对象的方法操作数据库</h3>
+<h3 id="section">3. 编写操作类代码，使用面向对象的方法操作数据库</h3>
 
 <p>在完成Hibernate的配置后，即可使用面行对象的方法来操作数据库了，在此类的方法中实现对数据库的操作有以下几步。</p>
 
 <ol>
-<li>获取第二步中的通用配置信息</li>
-<li>创建SessionFactory</li>
-<li>创建Session</li>
-<li>开始事务，用面向对象的方法进行处理，最后提交处理</li>
-<li>关闭Session</li>
+  <li>获取第二步中的通用配置信息</li>
+  <li>创建SessionFactory</li>
+  <li>创建Session</li>
+  <li>开始事务，用面向对象的方法进行处理，最后提交处理</li>
+  <li>关闭Session</li>
 </ol>
-
 
 <p>以下代码实现往数据库添加一条信息的功能。</p>
 
@@ -221,29 +250,28 @@ import org.hibernate.cfg.Configuration;
 public class NewsManager {
 
     public static void main(String[] args)
-        throws Exception {
-        Configuration conf = new Configuration().configure();
-        SessionFactory sf = conf.buildSessionFactory();
+	    throws Exception {
+	    Configuration conf = new Configuration().configure();
+	    SessionFactory sf = conf.buildSessionFactory();
+	
+	    Session sess = sf.openSession();
 
-        Session sess = sf.openSession();
+	    Transaction tx = sess.beginTransaction();
 
-        Transaction tx = sess.beginTransaction();
+	    News n = new News();
 
-        News n = new News();
+	    n.setTitle("一条信息");
+	    n.setContent("信息内容");
 
-        n.setTitle("一条信息");
-        n.setContent("信息内容");
-
-        sess.save(n);
-        tx.commit();
-        sess.close();
-        sf.close();
+	    sess.save(n);
+	    tx.commit();
+	    sess.close();
+	    sf.close();
     }
 }
 </code></pre>
 
-<h2>参考</h2>
-
+<h2 id="section-1">参考</h2>
 <p><a href="http://book.douban.com/subject/6002664/">轻量级Java EE企业应用实战</a></p>
 </div>
 
@@ -355,6 +383,10 @@ public class NewsManager {
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/04/28/linear-regression-of-machine-regression/">机器学习之线性回归</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/04/22/octopress-on-windows/">在windows 7 上部署已有的中文octopress博客</a>
       </li>
     
@@ -368,10 +400,6 @@ public class NewsManager {
     
       <li class="post">
         <a href="/blog/2013/03/15/design-pattern-in-python-creational-ones/">设计模式：Python语言实现之创建型模式</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/02/27/javaee-learning-spring/">JavaEE学习之Spring技术</a>
       </li>
     
   </ul>

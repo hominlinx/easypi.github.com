@@ -9,7 +9,7 @@
   <meta name="author" content="厚之成">
 
   
-  <meta name="description" content="之前在ubuntu下搭建了octopress的博客，现在想在实验室的windows 7上也搭建起来。网上的文章多为在windows搭建新的octopress博客，本文则是将已有的octopress博客部署到windows 7的环境下。 ">
+  <meta name="description" content="机器学习是一种广泛应用的技术，其中有监督的学习是其主要内容。本文介绍一类简单的有监督学习算法：线性回归。线性回归是最基础的有监督学习算法，本文将从理论介绍，算法实现，应用实例三个方面对该算法进行介绍。 ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -30,6 +30,37 @@
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript"
+   src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
   
 
 </head>
@@ -73,6 +104,49 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
+        <h1 class="entry-title"><a href="/blog/2013/04/28/linear-regression-of-machine-regression/">机器学习之线性回归</a></h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-28T16:56:00+08:00" pubdate data-updated="true">Apr 28<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>机器学习是一种广泛应用的技术，其中有监督的学习是其主要内容。本文介绍一类简单的有监督学习算法：线性回归。线性回归是最基础的有监督学习算法，本文将从理论介绍，算法实现，应用实例三个方面对该算法进行介绍。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/04/28/linear-regression-of-machine-regression/"> 阅读 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -463,52 +537,9 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2013/01/05/using-octopress-to-setup-blog-on-github/">利用Octopress在github Pages上搭建个人博客</a></h1>
-      
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-05T22:19:00+08:00" pubdate data-updated="true">Jan 5<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>github不仅能够提供代码托管和版本控制系统，现在又有了github pages功能，可以让你将个人的博客搭建在此，通过git 工具方便的发布个人博客。由于pages只提供了管理和呈现静态网页的功能，而静态网页的生成则需自己实现。Jekyll工具可用来实现静态网页的生成，但是使用起来相对麻烦，需要对Html,CSS和javascript比较熟悉。作为希望更加关注内容的博客用户来说，Octopress给出了一个更好的选择，Octopress是一个基于Jekyll的博客生成框架，它处理了Jekyll那些麻烦的配置，安装后只需几条简单的命令就可以发布你的博客了。</p>
-
-<p>本文就是基于该系统发布的第一篇，本文记录了在ubuntu 12.04系统下搭建该博客系统的过程，同时也加入了一些自己的配置，比如增加新浪微波侧边栏、去除分享到twitter等国内不能使用的功能、增加分享到微博等网站的功能、添加评论系统等。现在做一总结，分享给大家。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/01/05/using-octopress-to-setup-blog-on-github/"> 阅读 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/2/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -519,6 +550,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/04/28/linear-regression-of-machine-regression/">机器学习之线性回归</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/04/22/octopress-on-windows/">在windows 7 上部署已有的中文octopress博客</a>
@@ -534,10 +569,6 @@
     
       <li class="post">
         <a href="/blog/2013/03/15/design-pattern-in-python-creational-ones/">设计模式：Python语言实现之创建型模式</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/02/27/javaee-learning-spring/">JavaEE学习之Spring技术</a>
       </li>
     
   </ul>
